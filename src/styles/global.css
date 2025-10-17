@@ -1,0 +1,44 @@
+@import 'tailwindcss';
+
+/* Estilos personalizados para el slider de calidad */
+.slider-custom {
+  -webkit-appearance: none;
+  appearance: none;
+  background: linear-gradient(to right, #f87171, #fbbf24, #4ade80);
+  outline: none;
+  border-radius: 6px;
+  height: 12px;
+}
+
+.slider-custom::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #3b82f6;
+  cursor: pointer;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.1s ease-in-out;
+}
+
+.slider-custom::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  background: #2563eb;
+}
+
+.slider-custom::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #3b82f6;
+  cursor: pointer;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Animación suave para cambios de valor */
+.slider-custom {
+  transition: background 0.1s ease-in-out;
+}

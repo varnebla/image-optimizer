@@ -1,16 +1,45 @@
 ---
-
+import Layout from '../layouts/Layout.astro';
+import ImageDrop from '../components/ImageDrop.vue';
+import ValidationWarnings from '../components/ValidationWarnings.vue';
+import ImagePreview from '../components/ImagePreview.vue';
+import PresetsSelector from '../components/PresetsSelector.vue';
+import SettingsPanel from '../components/SettingsPanel.vue';
+import OptimizationPreview from '../components/OptimizationPreview.vue';
+import ProgressList from '../components/ProgressList.vue';
+import ResultSummary from '../components/ResultSummary.vue';
+import DetailedStats from '../components/DetailedStats.vue';
+import OptimizeButton from '../components/OptimizeButton.vue';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout>
+    <div id="app" class="max-w-6xl mx-auto p-8">
+      <h1 class="text-4xl font-bold mb-8 text-center text-gray-800">Optimizador de Imágenes</h1>
+      <ImageDrop client:load />
+      <ValidationWarnings client:load />
+      <ImagePreview client:load />
+      <PresetsSelector client:load />
+      <SettingsPanel client:load />
+      <OptimizationPreview client:load />
+      <OptimizeButton client:load />
+      <ProgressList client:load />
+      <ResultSummary client:load />
+      <DetailedStats client:load />
+    </div>
+  </Layout>
+
+  <script is:inline>
+    // Previene que el navegador abra la imagen en una pestaña nueva si el drop no ocurre en el drop-zone
+    window.addEventListener("drop", (e) => {
+      const dropZone = document.getElementById("drop-zone");
+      if (!dropZone || !dropZone.contains(e.target)) {
+        e.preventDefault();
+      }
+    });
+    window.addEventListener("dragover", (e) => {
+      const dropZone = document.getElementById("drop-zone");
+      if (!dropZone || !dropZone.contains(e.target)) {
+        e.preventDefault();
+      }
+    });
+  </script>
