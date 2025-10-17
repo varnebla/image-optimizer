@@ -77,8 +77,9 @@ export function estimateOptimization(
   const originalSizeMB = originalSizeKB / 1024;
 
   // Factor de compresión basado en formato y calidad
+  const qualityFactors = COMPRESSION_FACTORS[options.format];
   const compressionFactor =
-    COMPRESSION_FACTORS[options.format][options.quality] || 0.75;
+    qualityFactors[options.quality as keyof typeof qualityFactors] || 0.75;
 
   // Factor de redimensionamiento
   const resizeFactor = getResizeFactor(
@@ -148,7 +149,10 @@ export function getCompressionStats(): {
 
   for (const format of ['webp', 'avif'] as const) {
     for (const quality of [100, 90, 80, 70, 60, 50]) {
-      const factor = COMPRESSION_FACTORS[format][quality];
+      const factor =
+        COMPRESSION_FACTORS[format][
+          quality as keyof (typeof COMPRESSION_FACTORS)[typeof format]
+        ];
       stats.push({
         format,
         quality,

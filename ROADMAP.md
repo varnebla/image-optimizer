@@ -540,9 +540,12 @@ Ideas para después de completar este roadmap:
 - Filtros y efectos avanzados
 - Eliminación de fondo con IA
 - Historial de optimizaciones
-- Exportar/Importar configuraciones
-- Integración con APIs de almacenamiento (Dropbox, Google Drive)
+  <!-- - Exportar/Importar configuraciones -->
+  <!-- - Integración con APIs de almacenamiento (Dropbox, Google Drive) -->
 - Soporte para video (conversión a formatos web)
+- Internacionalización
+- Dark mode
+- Mejorar la estimación de optimización (no es muy accurate)
 
 ---
 
