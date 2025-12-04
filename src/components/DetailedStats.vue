@@ -141,9 +141,9 @@
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
-import { results } from '../utils/imageStore';
-import { formatBytes } from '../utils/fileValidation';
-import type { OptimizeResult } from '../utils/imageUtils';
+import { results } from '@utils/imageStore';
+import { formatBytes } from '@utils/fileValidation';
+import type { OptimizeResult } from '@utils/imageUtils';
 
 type SortKey =
   | 'originalName'

@@ -1,5 +1,5 @@
-import type { OptimizeOptions, OptimizeResult } from '../utils/imageUtils';
-import { optimizeImage } from '../utils/imageUtils';
+import type { OptimizeOptions, OptimizeResult } from '@utils/imageUtils';
+import { optimizeImage } from '@utils/imageUtils';
 import * as Comlink from 'comlink';
 
 /**

@@ -5,6 +5,7 @@ export type OptimizeOptions = {
   maxWidth: number;
   format: 'webp' | 'avif';
   quality: number;
+  stripMetadata?: boolean;
 };
 
 export type OptimizeResult = {

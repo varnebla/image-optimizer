@@ -48,5 +48,5 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { options } from '../utils/imageStore';
+import { options } from '@utils/imageStore';
 </script>

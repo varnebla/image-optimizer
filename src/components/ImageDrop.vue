@@ -98,12 +98,12 @@ import {
   error,
   fileLimits,
   validationInfo,
-} from '../utils/imageStore';
+} from '@utils/imageStore';
 import {
   validateFiles,
   getValidationSummary,
   formatBytes,
-} from '../utils/fileValidation';
+} from '@utils/fileValidation';
 
 const fileInput = ref<HTMLInputElement | null>(null);
 const isDragging = ref(false);

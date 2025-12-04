@@ -70,8 +70,8 @@
 </template>
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { results, zipBlob, options } from '../utils/imageStore';
-import type { OptimizeResult } from '../utils/imageUtils';
+import { results, zipBlob, options } from '@utils/imageStore';
+import type { OptimizeResult } from '@utils/imageUtils';
 
 const show = computed(() => results.value.length > 0 && zipBlob.value !== null);
 

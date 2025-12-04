@@ -102,8 +102,8 @@ import {
   progress,
   results,
   zipBlob,
-} from '../utils/imageStore';
-import { formatBytes } from '../utils/fileValidation';
+} from '@utils/imageStore';
+import { formatBytes } from '@utils/fileValidation';
 
 // Canvas y contexto para generar thumbnails
 const thumbnailCanvas = ref<HTMLCanvasElement | null>(null);

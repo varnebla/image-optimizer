@@ -47,13 +47,15 @@ import {
   options,
   progress,
   results,
+  sessionLog,
   zipBlob,
   isProcessing,
   error,
-} from '../utils/imageStore';
-import { generateZip } from '../utils/zipUtils';
-import { optimizeImage } from '../utils/imageUtils';
-import type { OptimizeResult } from '../utils/imageUtils';
+  validationInfo,
+} from '@utils/imageStore';
+import { generateZip } from '@utils/zipUtils';
+import { optimizeImage } from '@utils/imageUtils';
+import type { OptimizeResult } from '@utils/imageUtils';
 
 /**
  * Procesa las imágenes de forma asíncrona.
@@ -103,6 +105,19 @@ async function optimizeImages() {
           ).toFixed(2)} KB) en ${processingTime}ms`
         );
 
+        // Agregar al log de sesión
+        sessionLog.value.push({
+          id: crypto.randomUUID(),
+          timestamp: Date.now(),
+          fileName: result.originalName,
+          originalSize: result.originalSize,
+          optimizedSize: result.optimizedSize,
+          format: result.format,
+          savingsPercentage:
+            ((result.originalSize - result.optimizedSize) / result.originalSize) *
+            100,
+        });
+
         // Dar tiempo al navegador para actualizar la UI
         await new Promise((resolve) => setTimeout(resolve, 10));
       } catch (err) {
@@ -121,6 +136,14 @@ async function optimizeImages() {
     console.log('Generando archivo ZIP...');
     zipBlob.value = await generateZip(optimizedResults);
     console.log('✓ ZIP generado correctamente');
+
+    // Limpiar estado de entrada para permitir nueva carga
+    files.value = [];
+    progress.value = [];
+    validationInfo.hasWarnings = false;
+    validationInfo.warnings = [];
+    validationInfo.rejectedFiles = [];
+    validationInfo.stats = null;
   } catch (e: any) {
     console.error('Error en optimización:', e);
     error.value = e?.message || 'Error al optimizar las imágenes.';

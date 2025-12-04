@@ -1,15 +1,16 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import ImageDrop from '../components/ImageDrop.vue';
-import ValidationWarnings from '../components/ValidationWarnings.vue';
-import ImagePreview from '../components/ImagePreview.vue';
-import PresetsSelector from '../components/PresetsSelector.vue';
-import SettingsPanel from '../components/SettingsPanel.vue';
-import OptimizationPreview from '../components/OptimizationPreview.vue';
-import ProgressList from '../components/ProgressList.vue';
-import ResultSummary from '../components/ResultSummary.vue';
-import DetailedStats from '../components/DetailedStats.vue';
-import OptimizeButton from '../components/OptimizeButton.vue';
+import Layout from '@layouts/Layout.astro';
+import ImageDrop from '@components/ImageDrop.vue';
+import ValidationWarnings from '@components/ValidationWarnings.vue';
+import ImagePreview from '@components/ImagePreview.vue';
+import PresetsSelector from '@components/PresetsSelector.vue';
+import SettingsPanel from '@components/SettingsPanel.vue';
+
+import ProgressList from '@components/ProgressList.vue';
+import ResultSummary from '@components/ResultSummary.vue';
+import DetailedStats from '@components/DetailedStats.vue';
+import OptimizeButton from '@components/OptimizeButton.vue';
+import SessionLog from '@components/SessionLog.vue';
 ---
 
 <Layout>
@@ -20,10 +21,11 @@ import OptimizeButton from '../components/OptimizeButton.vue';
       <ImagePreview client:load />
       <PresetsSelector client:load />
       <SettingsPanel client:load />
-      <OptimizationPreview client:load />
+
       <OptimizeButton client:load />
       <ProgressList client:load />
       <ResultSummary client:load />
+      <SessionLog client:visible />
       <DetailedStats client:load />
     </div>
   </Layout>

@@ -76,8 +76,8 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { validationInfo } from '../utils/imageStore';
-import { formatBytes } from '../utils/fileValidation';
+import { validationInfo } from '@utils/imageStore';
+import { formatBytes } from '@utils/fileValidation';
 
 const showRejected = ref(false);
 </script>

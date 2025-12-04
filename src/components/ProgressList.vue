@@ -53,5 +53,5 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { progress } from '../utils/imageStore';
+import { progress } from '@utils/imageStore';
 </script>

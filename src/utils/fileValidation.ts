@@ -36,7 +36,7 @@ export interface ValidationStats {
 
 // Límites por defecto
 export const DEFAULT_LIMITS: FileLimits = {
-  maxFileSize: 6 * 1024 * 1024, // 6 MB
+  maxFileSize: 12 * 1024 * 1024, // 6 MB
   maxFiles: 10,
   maxTotalSize: 60 * 1024 * 1024, // 60 MB
   autoFilter: true,

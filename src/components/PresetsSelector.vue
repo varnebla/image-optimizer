@@ -154,7 +154,7 @@
 
 <script lang="ts" setup>
 import { ref, computed, onMounted } from 'vue';
-import { options } from '../utils/imageStore';
+import { options } from '@utils/imageStore';
 import {
   getAllPresets,
   createCustomPreset,
@@ -163,8 +163,8 @@ import {
   saveLastUsedPreset,
   getLastUsedPresetId,
   PREDEFINED_PRESETS,
-} from '../utils/presets';
-import type { Preset } from '../utils/presets';
+} from '@utils/presets';
+import type { Preset } from '@utils/presets';
 
 const allPresets = ref<Preset[]>([]);
 const selectedPresetId = ref<string | null>(null);
