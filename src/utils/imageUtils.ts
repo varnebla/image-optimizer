@@ -77,11 +77,30 @@ export async function optimizeImage(
   });
 
   // Convertir a formato deseado
-  const blob = await picaInstance.toBlob(
-    targetCanvas,
-    `image/${options.format}`,
-    options.quality / 100
-  );
+  let blob: Blob;
+  
+  if (options.format === 'avif') {
+    // Usar @jsquash/avif desde CDN (esm.sh) para evitar problemas de bundling
+    const avifModule = await import('https://esm.sh/@jsquash/avif' as unknown as string);
+    const { encode } = avifModule as { encode: (imageData: ImageData) => Promise<Uint8Array> };
+    
+    const ctx = targetCanvas.getContext('2d');
+    if (!ctx) throw new Error('No se pudo obtener contexto 2D');
+    
+    const imageData = ctx.getImageData(0, 0, targetCanvas.width, targetCanvas.height);
+    
+    // Codificar con @jsquash/avif
+    const avifData = await encode(imageData);
+    
+    blob = new Blob([avifData as any], { type: 'image/avif' });
+  } else {
+    // Para WebP: usar Pica (optimizado)
+    blob = await picaInstance.toBlob(
+      targetCanvas,
+      `image/${options.format}`,
+      options.quality / 100
+    );
+  }
 
   // Generar nombre de archivo con extensión correcta
   const baseName = file.name.replace(/\.[^/.]+$/, '');
