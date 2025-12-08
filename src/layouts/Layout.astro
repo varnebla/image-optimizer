@@ -1,14 +1,32 @@
 ---
-import "../styles/global.css";
+import '../styles/global.css';
 ---
+
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Optimizador de Imágenes</title>
+    <title>
+      Optimizar imágenes online | Compresor rápido sin perder calidad
+    </title>
+    <meta
+      name="description"
+      content="Optimiza varias imágenes a la vez en segundos. Reduce peso sin perder calidad, mejora el rendimiento de tus webs y acelera tu workflow. Gratis, rápido y sin límites."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>"
+    />
+    <script
+      defer
+      src="https://cloud.umami.is/script.js"
+      data-website-id="451a5755-78cf-4c90-a520-39398f4c8832"></script>
+    <script>
+      if (!import.meta.env.PROD) localStorage.setItem('umami.disabled', '1');
+    </script>
   </head>
   <body class="bg-gray-50 min-h-screen">
-    <slot/>
+    <slot />
   </body>
 </html>
