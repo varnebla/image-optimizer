@@ -119,6 +119,8 @@ function formatFileSize(bytes: number): string {
 function onFileChange(e: Event) {
   console.log('onFileChange triggered');
   const files = (e.target as HTMLInputElement).files;
+  //@ts-ignore
+  window?.umami.track('Archivos añadidos', {archivos: files.length});
   if (files) emitFiles(files);
 }
 

@@ -34,7 +34,7 @@
       class="w-full px-6 py-3 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition-colors font-semibold text-lg flex items-center justify-center gap-2"
       @click="downloadZip"
       data-umami-event="Descargar imágenes"
-      :data-umami-event-number="results.length"
+      :data-umami-event-archivos="results.length"
     >
       <svg
         class="w-6 h-6"
