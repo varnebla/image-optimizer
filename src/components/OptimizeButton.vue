@@ -4,6 +4,7 @@
       class="w-full px-8 py-4 bg-blue-600 text-white rounded-lg shadow-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-700 transition-colors flex items-center justify-center gap-3 text-lg"
       :disabled="isProcessing || !files.length"
       @click="optimizeImages"
+      data-umami-event="Optimizar imágenes"
     >
       <span
         v-if="isProcessing"

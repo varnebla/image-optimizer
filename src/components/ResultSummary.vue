@@ -33,6 +33,8 @@
     <button
       class="w-full px-6 py-3 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition-colors font-semibold text-lg flex items-center justify-center gap-2"
       @click="downloadZip"
+      data-umami-event="Descargar imágenes"
+      :data-umami-event-number="results.length"
     >
       <svg
         class="w-6 h-6"
@@ -62,6 +64,7 @@
       <button
         class="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition-colors"
         @click="copySnippet"
+        data-umami-event="Copiar snippet al portapapeles"
       >
         📋 Copiar al portapapeles
       </button>

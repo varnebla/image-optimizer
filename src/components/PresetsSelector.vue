@@ -5,6 +5,7 @@
       <button
         class="px-3 py-1 text-sm bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors font-medium"
         @click="showCreateModal = true"
+        data-umami-event="Abrir crear preset personalizado"
       >
         ➕ Crear Preset
       </button>
@@ -24,6 +25,8 @@
               selectedPresetId !== preset.id,
           }"
           @click="applyPreset(preset)"
+          data-umami-event="Seleccionar preset"
+          :data-umami-event-preset="preset.name"
         >
           <div class="flex items-center gap-2 mb-1">
             <span class="text-2xl">{{ preset.icon }}</span>
@@ -143,6 +146,7 @@
             class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
             :disabled="!newPreset.name"
             @click="createPreset"
+            data-umami-event="Crear preset personalizado"
           >
             Crear
           </button>
