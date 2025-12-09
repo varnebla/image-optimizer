@@ -1,5 +1,9 @@
 ---
 import '../styles/global.css';
+import Navbar from '@components/Navbar.astro';
+import Footer from '@components/Footer.astro';
+
+const { title, description } = Astro.props;
 ---
 
 <html lang="es">
@@ -8,12 +12,9 @@ import '../styles/global.css';
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>
-      Optimizar imágenes online | Compresor rápido sin perder calidad
+      {title}
     </title>
-    <meta
-      name="description"
-      content="Optimiza varias imágenes a la vez en segundos. Reduce peso sin perder calidad, mejora el rendimiento de tus webs y acelera tu workflow. Gratis, rápido y sin límites."
-    />
+    <meta name="description" content={description} />
     <link
       rel="icon"
       href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>"
@@ -26,7 +27,11 @@ import '../styles/global.css';
       if (!import.meta.env.PROD) localStorage.setItem('umami.disabled', '1');
     </script>
   </head>
-  <body class="bg-gray-50 min-h-screen">
-    <slot />
+  <body class="bg-gray-50 min-h-screen flex flex-col">
+    <Navbar />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <Footer />
   </body>
 </html>
