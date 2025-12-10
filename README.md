@@ -140,8 +140,6 @@ src/
 │   ├── imageStore.ts    # Store reactivo global (Vue)
 │   ├── imageUtils.ts    # Lógica de optimización de imágenes
 │   └── zipUtils.ts      # Generación de archivos ZIP
-└── workers/
-    └── optimizer.worker.ts # Web Worker (no usado actualmente)
 ```
 
 ## 🎯 Decisiones de Diseño

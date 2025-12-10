@@ -37,22 +37,30 @@ export async function optimizeImage(
 
   // Crear imagen desde el archivo
   const img = await createImageBitmap(file);
-  let { width, height } = img;
+  const { width, height } = img;
+
+  // Determinar dimensiones visuales (considerando rotación EXIF)
+  const isRotated = exif && [5, 6, 7, 8].includes(exif);
+  const canvasWidth = isRotated ? height : width;
+  const canvasHeight = isRotated ? width : height;
 
   // Calcular nuevas dimensiones manteniendo proporción
-  let targetWidth = width;
-  let targetHeight = height;
-  if (width > options.maxWidth) {
+  let targetWidth = canvasWidth;
+  let targetHeight = canvasHeight;
+  if (canvasWidth > options.maxWidth) {
     targetWidth = options.maxWidth;
-    targetHeight = Math.round((height * options.maxWidth) / width);
+    targetHeight = Math.round((canvasHeight * options.maxWidth) / canvasWidth);
   }
 
   // Canvas fuente
   const sourceCanvas = document.createElement('canvas');
-  sourceCanvas.width = width;
-  sourceCanvas.height = height;
+  sourceCanvas.width = canvasWidth;
+  sourceCanvas.height = canvasHeight;
   const sourceCtx = sourceCanvas.getContext('2d');
-  if (!sourceCtx) throw new Error('No se pudo obtener contexto 2D');
+  if (!sourceCtx) {
+    img.close();
+    throw new Error('No se pudo obtener contexto 2D');
+  }
 
   // Aplicar rotación EXIF si es necesario
   if (exif && exif !== 1) {
@@ -60,6 +68,9 @@ export async function optimizeImage(
   } else {
     sourceCtx.drawImage(img, 0, 0);
   }
+  
+  // Liberar memoria del ImageBitmap original
+  img.close();
 
   // Canvas destino
   const targetCanvas = document.createElement('canvas');
