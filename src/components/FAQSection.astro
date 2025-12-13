@@ -204,4 +204,94 @@ const t = useTranslations(lang);
       </details>
     </div>
   </div>
+
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: t('faq.q1'),
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: t('faq.a1'),
+          },
+        },
+        {
+          '@type': 'Question',
+          name: t('faq.q2'),
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: t('faq.a2'),
+          },
+        },
+        {
+          '@type': 'Question',
+          name: t('faq.q3'),
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: t('faq.a3'),
+          },
+        },
+        {
+          '@type': 'Question',
+          name: t('faq.q4'),
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: t('faq.a4'),
+          },
+        },
+        {
+          '@type': 'Question',
+          name: t('faq.q5'),
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: t('faq.a5'),
+          },
+        },
+        {
+          '@type': 'Question',
+          name: t('faq.q6'),
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: t('faq.a6'),
+          },
+        },
+        {
+          '@type': 'Question',
+          name: t('faq.q7'),
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: t('faq.a7'),
+          },
+        },
+        {
+          '@type': 'Question',
+          name: t('faq.q8'),
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: t('faq.a8'),
+          },
+        },
+        {
+          '@type': 'Question',
+          name: t('faq.q9'),
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: t('faq.a9'),
+          },
+        },
+        {
+          '@type': 'Question',
+          name: t('faq.q10'),
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: t('faq.a10'),
+          },
+        },
+      ],
+    })}
+  />
 </section>
