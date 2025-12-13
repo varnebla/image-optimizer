@@ -4,9 +4,20 @@ import { getLangFromUrl, useTranslations } from '@i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+
+// hreflang pair
+const hrefEn = 'https://image-optimizer.xyz/en/bulk-optimize-images';
+const hrefEs = 'https://image-optimizer.xyz/optimizar-varias-imagenes';
+const canonical = hrefEn;
 ---
 
-<Layout title={t('page.bulk.title')} description={t('page.bulk.description')}>
+<Layout
+  title={t('page.bulk.title')}
+  description={t('page.bulk.description')}
+  hrefEn={hrefEn}
+  hrefEs={hrefEs}
+  canonical={canonical}
+>
   <main class="max-w-6xl mx-auto p-8">
     <div class="mb-12">
       <h1

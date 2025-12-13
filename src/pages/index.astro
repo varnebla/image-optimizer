@@ -18,9 +18,20 @@ import type { Lang } from '@i18n/ui';
 
 const lang = getLangFromUrl(Astro.url) as Lang;
 const t = useTranslations(lang);
+
+// hreflang pair
+const hrefEn = 'https://image-optimizer.xyz/en';
+const hrefEs = 'https://image-optimizer.xyz';
+const canonical = hrefEs;
 ---
 
-<Layout title={t('page.home.title')} description={t('page.home.description')}>
+<Layout
+  title={t('page.home.title')}
+  description={t('page.home.description')}
+  hrefEn={hrefEn}
+  hrefEs={hrefEs}
+  canonical={canonical}
+>
   <div id="app" class="max-w-6xl mx-auto p-8">
     <h1
       class="text-4xl font-bold mb-8 text-center text-gray-800 max-w-xl mx-auto text-pretty"
