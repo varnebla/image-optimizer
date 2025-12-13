@@ -4,6 +4,8 @@
  */
 
 import type { OptimizeOptions } from './imageUtils';
+import { useTranslations } from '@i18n/utils';
+import type { Lang } from '@i18n/ui';
 
 export interface Preset {
   id: string;
@@ -15,63 +17,67 @@ export interface Preset {
 }
 
 // Presets predefinidos
-export const PREDEFINED_PRESETS: Preset[] = [
-  {
-    id: 'web-performance',
-    name: 'Web Performance',
-    description: 'Optimización agresiva para máximo rendimiento web',
-    icon: '🚀',
-    config: {
-      maxWidth: 1920,
-      format: 'webp',
-      quality: 75,
+export function getPredefinedPresets(lang: Lang): Preset[] {
+  const t = useTranslations(lang);
+  
+  return [
+    {
+      id: 'web-performance',
+      name: t('preset.webPerformance.name'),
+      description: t('preset.webPerformance.description'),
+      icon: '🚀',
+      config: {
+        maxWidth: 1920,
+        format: 'webp',
+        quality: 75,
+      },
     },
-  },
-  {
-    id: 'high-quality',
-    name: 'Alta Calidad',
-    description: 'Mejor calidad visual con compresión moderada',
-    icon: '🎨',
-    config: {
-      maxWidth: 2560,
-      format: 'webp',
-      quality: 90,
+    {
+      id: 'high-quality',
+      name: t('preset.highQuality.name'),
+      description: t('preset.highQuality.description'),
+      icon: '🎨',
+      config: {
+        maxWidth: 2560,
+        format: 'webp',
+        quality: 90,
+      },
     },
-  },
-  {
-    id: 'social-media',
-    name: 'Redes Sociales',
-    description: 'Optimizado para Instagram, Facebook, Twitter',
-    icon: '📱',
-    config: {
-      maxWidth: 1080,
-      format: 'webp',
-      quality: 80,
+    {
+      id: 'social-media',
+      name: t('preset.socialMedia.name'),
+      description: t('preset.socialMedia.description'),
+      icon: '📱',
+      config: {
+        maxWidth: 1080,
+        format: 'webp',
+        quality: 80,
+      },
     },
-  },
-  {
-    id: 'modern-format',
-    name: 'Formato Moderno',
-    description: 'AVIF para navegadores compatibles',
-    icon: '🔬',
-    config: {
-      maxWidth: 1920,
-      format: 'avif',
-      quality: 65,
+    {
+      id: 'modern-format',
+      name: t('preset.modernFormat.name'),
+      description: t('preset.modernFormat.description'),
+      icon: '🔬',
+      config: {
+        maxWidth: 1920,
+        format: 'avif',
+        quality: 65,
+      },
     },
-  },
-  {
-    id: 'balanced',
-    name: 'Equilibrado',
-    description: 'Balance entre calidad y tamaño',
-    icon: '⚖️',
-    config: {
-      maxWidth: 1920,
-      format: 'webp',
-      quality: 80,
+    {
+      id: 'balanced',
+      name: t('preset.balanced.name'),
+      description: t('preset.balanced.description'),
+      icon: '⚖️',
+      config: {
+        maxWidth: 1920,
+        format: 'webp',
+        quality: 80,
+      },
     },
-  },
-];
+  ];
+}
 
 const CUSTOM_PRESETS_KEY = 'image-optimizer-custom-presets';
 const LAST_PRESET_KEY = 'image-optimizer-last-preset';
@@ -79,9 +85,9 @@ const LAST_PRESET_KEY = 'image-optimizer-last-preset';
 /**
  * Obtiene todos los presets (predefinidos + personalizados)
  */
-export function getAllPresets(): Preset[] {
+export function getAllPresets(lang: Lang): Preset[] {
   const customPresets = getCustomPresets();
-  return [...PREDEFINED_PRESETS, ...customPresets];
+  return [...getPredefinedPresets(lang), ...customPresets];
 }
 
 /**
@@ -180,8 +186,8 @@ export function deleteCustomPreset(id: string): boolean {
 /**
  * Busca un preset por ID
  */
-export function getPresetById(id: string): Preset | null {
-  const allPresets = getAllPresets();
+export function getPresetById(id: string, lang: Lang): Preset | null {
+  const allPresets = getAllPresets(lang);
   return allPresets.find((p) => p.id === id) || null;
 }
 

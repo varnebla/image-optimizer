@@ -1,19 +1,19 @@
 <template>
   <div class="my-6 p-6 bg-white rounded-lg shadow-md">
     <div class="flex items-center justify-between mb-4">
-      <h2 class="text-xl font-semibold text-gray-700">Presets</h2>
+      <h2 class="text-xl font-semibold text-gray-700">{{ t('presetsSelector.title') }}</h2>
       <button
         class="px-3 py-1 text-sm bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors font-medium"
         @click="showCreateModal = true"
         data-umami-event="Abrir crear preset personalizado"
       >
-        ➕ Crear Preset
+        ➕ {{ t('presetsSelector.createPreset') }}
       </button>
     </div>
 
     <!-- Presets Predefinidos -->
     <div class="space-y-2 mb-4">
-      <p class="text-sm font-medium text-gray-600 mb-2">Presets Predefinidos</p>
+      <p class="text-sm font-medium text-gray-600 mb-2">{{ t('presetsSelector.predefinedPresets') }}</p>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
         <button
           v-for="preset in predefinedPresets"
@@ -49,7 +49,7 @@
       v-if="customPresets.length > 0"
       class="space-y-2 mt-6 pt-6 border-t border-gray-200"
     >
-      <p class="text-sm font-medium text-gray-600 mb-2">Mis Presets</p>
+      <p class="text-sm font-medium text-gray-600 mb-2">{{ t('presetsSelector.myPresets') }}</p>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
         <div
           v-for="preset in customPresets"
@@ -96,41 +96,41 @@
       @click.self="showCreateModal = false"
     >
       <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-        <h3 class="text-lg font-bold mb-4">Crear Preset Personalizado</h3>
+        <h3 class="text-lg font-bold mb-4">{{ t('presetsSelector.createCustom') }}</h3>
 
         <div class="space-y-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">
-              Nombre
+              {{ t('presetsSelector.name') }}
             </label>
             <input
               v-model="newPreset.name"
               type="text"
               class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Mi Preset"
+              :placeholder="t('presetsSelector.namePlaceholder')"
             />
           </div>
 
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">
-              Descripción
+              {{ t('presetsSelector.description') }}
             </label>
             <input
               v-model="newPreset.description"
               type="text"
               class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Descripción del preset"
+              :placeholder="t('presetsSelector.descriptionPlaceholder')"
             />
           </div>
 
           <div class="p-3 bg-gray-50 rounded-lg">
             <p class="text-sm text-gray-700 mb-2">
-              <strong>Configuración Actual:</strong>
+              <strong>{{ t('presetsSelector.currentConfig') }}</strong>
             </p>
             <ul class="text-xs text-gray-600 space-y-1">
-              <li>• Ancho máximo: {{ options.maxWidth }}px</li>
-              <li>• Formato: {{ options.format.toUpperCase() }}</li>
-              <li>• Calidad: {{ options.quality }}</li>
+              <li>• {{ t('presetsSelector.maxWidth') }} {{ options.maxWidth }}px</li>
+              <li>• {{ t('presetsSelector.format') }} {{ options.format.toUpperCase() }}</li>
+              <li>• {{ t('presetsSelector.quality') }} {{ options.quality }}</li>
             </ul>
           </div>
         </div>
@@ -140,7 +140,7 @@
             class="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
             @click="showCreateModal = false"
           >
-            Cancelar
+            {{ t('presetsSelector.cancel') }}
           </button>
           <button
             class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
@@ -148,7 +148,7 @@
             @click="createPreset"
             data-umami-event="Crear preset personalizado"
           >
-            Crear
+            {{ t('presetsSelector.create') }}
           </button>
         </div>
       </div>
@@ -166,9 +166,16 @@ import {
   applyPreset as applyPresetUtil,
   saveLastUsedPreset,
   getLastUsedPresetId,
-  PREDEFINED_PRESETS,
 } from '@utils/presets';
 import type { Preset } from '@utils/presets';
+import { useTranslations } from '@i18n/utils';
+import type { Lang } from '@i18n/ui';
+
+const props = defineProps<{
+  lang: Lang;
+}>();
+
+const t = useTranslations(props.lang);
 
 const allPresets = ref<Preset[]>([]);
 const selectedPresetId = ref<string | null>(null);
@@ -187,7 +194,7 @@ const customPresets = computed(() =>
 );
 
 function loadPresets() {
-  allPresets.value = getAllPresets();
+  allPresets.value = getAllPresets(props.lang);
 }
 
 function applyPreset(preset: Preset) {
@@ -225,7 +232,7 @@ function createPreset() {
 }
 
 function deletePreset(id: string) {
-  if (confirm('¿Estás seguro de que quieres eliminar este preset?')) {
+  if (confirm(t('presetsSelector.confirmDelete'))) {
     if (deletePresetUtil(id)) {
       // Si el preset eliminado era el seleccionado, deseleccionar
       if (selectedPresetId.value === id) {

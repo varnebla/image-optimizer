@@ -4,29 +4,29 @@
     class="my-8 p-6 bg-gradient-to-br from-green-50 to-blue-50 rounded-lg shadow-lg border border-green-200"
   >
     <h2 class="text-2xl font-bold mb-4 text-green-800">
-      🎉 ¡Optimización completada!
+      🎉 {{ t('resultSummary.title') }}
     </h2>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
       <div class="bg-white p-4 rounded-lg shadow">
-        <p class="text-sm text-gray-600 mb-1">Peso Original</p>
+        <p class="text-sm text-gray-600 mb-1">{{ t('resultSummary.originalWeight') }}</p>
         <p class="text-2xl font-bold text-gray-800">
           {{ originalSizeFormatted }}
         </p>
       </div>
       <div class="bg-white p-4 rounded-lg shadow">
-        <p class="text-sm text-gray-600 mb-1">Peso Optimizado</p>
+        <p class="text-sm text-gray-600 mb-1">{{ t('resultSummary.optimizedWeight') }}</p>
         <p class="text-2xl font-bold text-blue-600">
           {{ optimizedSizeFormatted }}
         </p>
       </div>
       <div class="bg-white p-4 rounded-lg shadow">
-        <p class="text-sm text-gray-600 mb-1">Ahorro</p>
+        <p class="text-sm text-gray-600 mb-1">{{ t('resultSummary.savings') }}</p>
         <p class="text-2xl font-bold text-green-600">
           {{ savedSizeFormatted }}
         </p>
       </div>
       <div class="bg-white p-4 rounded-lg shadow">
-        <p class="text-sm text-gray-600 mb-1">Porcentaje</p>
+        <p class="text-sm text-gray-600 mb-1">{{ t('resultSummary.percentage') }}</p>
         <p class="text-2xl font-bold text-green-600">{{ savingPercent }}%</p>
       </div>
     </div>
@@ -49,11 +49,11 @@
           d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
         />
       </svg>
-      Descargar ZIP con todas las imágenes
+      {{ t('resultSummary.downloadZip') }}
     </button>
     <div v-if="pictureSnippet" class="mt-6">
       <label class="block font-bold mb-2 text-gray-700"
-        >Snippet HTML &lt;picture&gt; (ejemplo):</label
+        >{{ t('resultSummary.snippetTitle') }}</label
       >
       <textarea
         readonly
@@ -66,7 +66,7 @@
         @click="copySnippet"
         data-umami-event="Copiar snippet al portapapeles"
       >
-        📋 Copiar al portapapeles
+        📋 {{ t('resultSummary.copySnippet') }}
       </button>
     </div>
   </div>
@@ -75,6 +75,14 @@
 import { computed } from 'vue';
 import { results, zipBlob, options } from '@utils/imageStore';
 import type { OptimizeResult } from '@utils/imageUtils';
+import { useTranslations } from '@i18n/utils';
+import type { Lang } from '@i18n/ui';
+
+const props = defineProps<{
+  lang: Lang;
+}>();
+
+const t = useTranslations(props.lang);
 
 const show = computed(() => results.value.length > 0 && zipBlob.value !== null);
 
@@ -152,7 +160,7 @@ function selectSnippet(e: Event) {
 async function copySnippet() {
   try {
     await navigator.clipboard.writeText(pictureSnippet.value);
-    alert('✅ Snippet copiado al portapapeles');
+    alert('✅ ' + t('resultSummary.snippetCopied'));
   } catch (err) {
     console.error('Error al copiar:', err);
   }

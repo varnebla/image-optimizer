@@ -1,7 +1,7 @@
 <template>
   <div v-if="progress.length > 0" class="my-6">
     <h2 class="text-xl font-semibold mb-4 text-gray-700">
-      Progreso de Optimización
+      {{ t('progressList.title') }}
     </h2>
     <div class="space-y-3">
       <div
@@ -54,4 +54,12 @@
 </template>
 <script lang="ts" setup>
 import { progress } from '@utils/imageStore';
+import { useTranslations } from '@i18n/utils';
+import type { Lang } from '@i18n/ui';
+
+const props = defineProps<{
+  lang: Lang;
+}>();
+
+const t = useTranslations(props.lang);
 </script>

@@ -4,37 +4,26 @@ import { getLangFromUrl, useTranslations } from '@i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-
-// hreflang pair
-const hrefEn = 'https://image-optimizer.xyz/convert-to-avif';
-const hrefEs = 'https://image-optimizer.xyz/es/convertir-a-avif';
-const canonical = hrefEs;
 ---
 
-<Layout
-  title={t('page.avif.title')}
-  description={t('page.avif.description')}
-  canonical={canonical}
-  hrefEn={hrefEn}
-  hrefEs={hrefEs}
->
+<Layout title={t('page.bulk.title')} description={t('page.bulk.description')}>
   <main class="max-w-6xl mx-auto p-8">
     <div class="mb-12">
       <h1
         class="text-4xl font-bold mb-8 text-center text-gray-800 max-w-3xl mx-auto text-pretty"
       >
-        {t('page.avif.heading')}
+        {t('page.bulk.heading')}
       </h1>
 
       <div class="max-w-3xl mx-auto space-y-4 text-gray-700 leading-relaxed">
         <p>
-          {t('page.avif.intro1')}
+          {t('page.bulk.intro1')}
         </p>
         <p>
-          {t('page.avif.intro2')}
+          {t('page.bulk.intro2')}
         </p>
         <p>
-          {t('page.avif.intro3')}
+          {t('page.bulk.intro3')}
         </p>
       </div>
     </div>
@@ -43,7 +32,7 @@ const canonical = hrefEs;
       <a
         href="/"
         class="inline-block px-8 py-4 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-md"
-        >{t('page.avif.cta')}</a
+        >{t('page.bulk.cta')}</a
       >
     </div>
   </main>

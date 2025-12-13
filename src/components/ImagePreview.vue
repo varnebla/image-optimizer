@@ -2,16 +2,14 @@
   <div v-if="files.length > 0" class="my-6">
     <div class="flex items-center justify-between mb-4">
       <h2 class="text-xl font-semibold text-gray-700">
-        Vista Previa ({{ files.length }} imagen{{
-          files.length > 1 ? 'es' : ''
-        }})
+        {{ t('imagePreview.title') }} ({{ files.length }} {{ files.length > 1 ? t('imagePreview.images') : t('imagePreview.image') }})
       </h2>
       <button
         v-if="!isProcessing"
         class="px-4 py-2 text-sm bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors font-medium"
         @click="clearAll"
       >
-        🗑️ Eliminar Todas
+        🗑️ {{ t('imagePreview.deleteAll') }}
       </button>
     </div>
 
@@ -42,7 +40,7 @@
               class="opacity-0 group-hover:opacity-100 transition-opacity px-3 py-2 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700"
               @click="removeFile(index)"
             >
-              🗑️ Eliminar
+              🗑️ {{ t('imagePreview.delete') }}
             </button>
           </div>
 
@@ -84,10 +82,10 @@
     <div class="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
       <div class="flex items-center justify-between text-sm">
         <span class="text-gray-700">
-          <strong>Tamaño total:</strong> {{ totalSize }}
+          <strong>{{ t('imagePreview.totalSize') }}</strong> {{ totalSize }}
         </span>
         <span class="text-gray-700">
-          <strong>Promedio:</strong> {{ averageSize }}
+          <strong>{{ t('imagePreview.average') }}</strong> {{ averageSize }}
         </span>
       </div>
     </div>
@@ -104,6 +102,14 @@ import {
   zipBlob,
 } from '@utils/imageStore';
 import { formatBytes } from '@utils/fileValidation';
+import { useTranslations } from '@i18n/utils';
+import type { Lang } from '@i18n/ui';
+
+const props = defineProps<{
+  lang: Lang;
+}>();
+
+const t = useTranslations(props.lang);
 
 // Canvas y contexto para generar thumbnails
 const thumbnailCanvas = ref<HTMLCanvasElement | null>(null);

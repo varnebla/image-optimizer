@@ -24,7 +24,7 @@
           d="M13 10V3L4 14h7v7l9-11h-7z"
         />
       </svg>
-      <span>{{ isProcessing ? 'Procesando...' : 'Optimizar Imágenes' }}</span>
+      <span>{{ isProcessing ? t('optimizeButton.processing') : t('optimizeButton.optimize') }}</span>
     </button>
     <div
       v-if="error"
@@ -37,7 +37,7 @@
       class="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg"
     >
       <p class="text-green-700 font-medium">
-        ✅ ¡Imágenes optimizadas correctamente!
+        ✅ {{ t('optimizeButton.success') }}
       </p>
     </div>
   </div>
@@ -57,6 +57,14 @@ import {
 import { generateZip } from '@utils/zipUtils';
 import { optimizeImage } from '@utils/imageUtils';
 import type { OptimizeResult } from '@utils/imageUtils';
+import { useTranslations } from '@i18n/utils';
+import type { Lang } from '@i18n/ui';
+
+const props = defineProps<{
+  lang: Lang;
+}>();
+
+const t = useTranslations(props.lang);
 
 /**
  * Procesa las imágenes de forma asíncrona.

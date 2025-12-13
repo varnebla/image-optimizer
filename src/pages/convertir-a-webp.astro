@@ -1,39 +1,40 @@
 ---
 import Layout from '@layouts/Layout.astro';
+import { getLangFromUrl, useTranslations } from '@i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// hreflang pair
+const hrefEn = 'https://image-optimizer.xyz/convert-to-webp';
+const hrefEs = 'https://image-optimizer.xyz/es/convertir-a-webp';
+const canonical = hrefEs;
 ---
 
 <Layout
-  title="Convertir imágenes a WebP online | Optimizar JPG y PNG a WebP"
-  description="Convierte y optimiza imágenes JPG y PNG a WebP online. Reduce peso sin perder calidad, acelera tu web y mejora Core Web Vitals. Gratis y sin instalar nada."
+  title={t('page.webp.title')}
+  description={t('page.webp.description')}
+  canonical={canonical}
+  hrefEn={hrefEn}
+  hrefEs={hrefEs}
 >
   <main class="max-w-6xl mx-auto p-8">
     <div class="mb-12">
       <h1
         class="text-4xl font-bold mb-8 text-center text-gray-800 max-w-3xl mx-auto text-pretty"
       >
-        Convierte y optimiza tus imágenes a WebP online
+        {t('page.webp.heading')}
       </h1>
 
       <div class="max-w-3xl mx-auto space-y-4 text-gray-700 leading-relaxed">
         <p>
-          El formato WebP es uno de los mejores para optimizar el rendimiento de
-          sitios web gracias a su gran capacidad de compresión. Con esta
-          herramienta puedes convertir cualquier imagen (JPG, PNG, incluso WebP)
-          a WebP optimizado, reduciendo su peso sin perder calidad visual. El
-          proceso es rápido, sencillo y totalmente gratuito.
+          {t('page.webp.intro1')}
         </p>
         <p>
-          Solo tienes que subir tus imágenes, clicar en Optimizar y la
-          aplicación las convertirá automáticamente al formato WebP más ligero
-          posible. Puedes transformar y optimizar varias imágenes a la vez,
-          ideal para desarrolladores, diseñadores y creadores de contenido que
-          trabajan con grandes cantidades de recursos gráficos.
+          {t('page.webp.intro2')}
         </p>
         <p>
-          WebP es perfecto para mejorar Core Web Vitals, acelerar la carga en
-          dispositivos móviles y reducir el uso de ancho de banda. Al convertir
-          tus imágenes a WebP optimizado, preparas tu web para un rendimiento
-          superior sin esfuerzo.
+          {t('page.webp.intro3')}
         </p>
       </div>
     </div>
@@ -42,7 +43,7 @@ import Layout from '@layouts/Layout.astro';
       <a
         href="/"
         class="inline-block px-8 py-4 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-md"
-        >Optimiza tus imágenes a WebP ahora</a
+        >{t('page.webp.cta')}</a
       >
     </div>
   </main>

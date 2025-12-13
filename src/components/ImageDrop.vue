@@ -38,12 +38,12 @@
           />
         </svg>
         <p class="text-lg text-gray-700">
-          Arrastra imágenes aquí o
+          {{ t('imageDrop.dragText') }}
           <span class="text-blue-600 font-semibold underline"
-            >haz clic para seleccionar</span
+            >{{ t('imageDrop.clickText') }}</span
           >
         </p>
-        <p class="text-sm text-gray-500">Soporta: JPG, PNG, WebP, AVIF, GIF</p>
+        <p class="text-sm text-gray-500">{{ t('imageDrop.supportedFormats') }}</p>
       </div>
     </div>
     <div
@@ -54,8 +54,8 @@
         📁 {{ filesStore.length }}
         {{
           filesStore.length === 1
-            ? 'imagen seleccionada'
-            : 'imágenes seleccionadas'
+            ? t('imageDrop.imageSelected')
+            : t('imageDrop.imagesSelected')
         }}
       </p>
     </div>
@@ -66,19 +66,19 @@
         class="flex flex-wrap items-center justify-center gap-4 text-sm text-gray-600"
       >
         <div class="flex items-center gap-1">
-          <span class="font-medium">📏 Máx por archivo:</span>
+          <span class="font-medium">📏 {{ t('imageDrop.maxPerFile') }}</span>
           <span class="text-blue-600 font-semibold">{{
             formatFileSize(fileLimits.maxFileSize)
           }}</span>
         </div>
         <div class="flex items-center gap-1">
-          <span class="font-medium">📁 Máx archivos:</span>
+          <span class="font-medium">📁 {{ t('imageDrop.maxFiles') }}</span>
           <span class="text-blue-600 font-semibold">{{
             fileLimits.maxFiles
           }}</span>
         </div>
         <div class="flex items-center gap-1">
-          <span class="font-medium">💾 Total máximo:</span>
+          <span class="font-medium">💾 {{ t('imageDrop.maxTotal') }}</span>
           <span class="text-blue-600 font-semibold">{{
             formatFileSize(fileLimits.maxTotalSize)
           }}</span>
@@ -104,6 +104,14 @@ import {
   getValidationSummary,
   formatBytes,
 } from '@utils/fileValidation';
+import { useTranslations } from '@i18n/utils';
+import type { Lang } from '@i18n/ui';
+
+const props = defineProps<{
+  lang: Lang;
+}>();
+
+const t = useTranslations(props.lang);
 
 const fileInput = ref<HTMLInputElement | null>(null);
 const isDragging = ref(false);
@@ -175,7 +183,7 @@ function emitFiles(fileList: FileList) {
 
   // Si no hay archivos válidos
   if (validation.validFiles.length === 0) {
-    error.value = 'No se seleccionaron archivos de imagen válidos';
+    error.value = t('imageDrop.noValidFiles');
     return;
   }
 

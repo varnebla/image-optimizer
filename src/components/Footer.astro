@@ -1,5 +1,8 @@
 ---
+import { getLangFromUrl, useTranslations } from '@i18n/utils';
 
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <footer class="bg-gray-900 text-gray-300 mt-20 border-t border-gray-800">
@@ -7,20 +10,19 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
       <!-- Sobre -->
       <div>
-        <h3 class="text-white font-semibold mb-4">Image Optimizer</h3>
+        <h3 class="text-white font-semibold mb-4">{t('footer.title')}</h3>
         <p class="text-sm leading-relaxed">
-          Optimiza tus imágenes online sin perder calidad. Rápido, sencillo y
-          completamente gratuito.
+          {t('footer.subtitle')}
         </p>
       </div>
 
       <!-- Enlaces útiles -->
       <div>
-        <h3 class="text-white font-semibold mb-4">Recursos</h3>
+        <h3 class="text-white font-semibold mb-4">{t('footer.resources')}</h3>
         <ul class="space-y-2 text-sm">
           <li>
             <a href="#faqs" class="hover:text-blue-400 transition-colors"
-              >Preguntas Frecuentes</a
+              >{t('footer.faq')}</a
             >
           </li>
           <li>
@@ -28,7 +30,7 @@
               href="https://github.com/varnebla/image-optimizer/issues"
               class="hover:text-blue-400 transition-colors"
               target="_blank"
-              rel="noopener noreferrer">Reportar error</a
+              rel="noopener noreferrer">{t('footer.reportError')}</a
             >
           </li>
         </ul>
@@ -36,7 +38,7 @@
 
       <!-- Social -->
       <div>
-        <h3 class="text-white font-semibold mb-4">Sígueme</h3>
+        <h3 class="text-white font-semibold mb-4">{t('footer.followMe')}</h3>
         <a
           href="https://github.com/varnebla"
           target="_blank"
@@ -54,7 +56,7 @@
               d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.49.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.603-3.369-1.343-3.369-1.343-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.544 2.914 1.183.092-.923.35-1.555.636-1.912-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482C19.137 20.195 22 16.44 22 12.017 22 6.484 17.523 2 12 2z"
               clip-rule="evenodd"></path>
           </svg>
-          GitHub
+          {t('footer.github')}
         </a>
       </div>
     </div>
@@ -62,13 +64,14 @@
     <!-- Separador -->
     <div class="border-t border-gray-800 pt-8">
       <p class="text-center text-sm text-gray-400">
-        © 2025 Image Optimizer. Hecho con
-        <span class="text-red-500">❤️</span> por
+        {t('footer.copyright')}
+        {t('footer.author').split(' ')[0]}
         <a
           href="https://varnebla.dev"
           target="_blank"
           rel="noopener noreferrer"
-          class="hover:text-blue-400 transition-colors">Varnebla</a
+          class="hover:text-blue-400 transition-colors"
+          >{t('footer.author').split(' ')[1]}</a
         >
       </p>
     </div>

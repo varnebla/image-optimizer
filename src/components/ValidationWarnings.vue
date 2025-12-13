@@ -19,10 +19,10 @@
         @click="showRejected = !showRejected"
       >
         <span>
-          ❌ {{ validationInfo.rejectedFiles.length }} archivo{{
-            validationInfo.rejectedFiles.length > 1 ? 's' : ''
+          ❌ {{ validationInfo.rejectedFiles.length }} {{ t('validationWarnings.file') }}{{
+            validationInfo.rejectedFiles.length > 1 ? t('validationWarnings.files') : ''
           }}
-          rechazado{{ validationInfo.rejectedFiles.length > 1 ? 's' : '' }}
+          {{ t('validationWarnings.rejected') }}{{ validationInfo.rejectedFiles.length > 1 ? t('validationWarnings.rejectedPlural') : '' }}
         </span>
         <svg
           class="w-5 h-5 transition-transform"
@@ -63,10 +63,10 @@
       <p class="text-sm text-blue-800">
         📊
         <strong>{{ validationInfo.stats.validFiles }}</strong> de
-        <strong>{{ validationInfo.stats.totalFiles }}</strong> archivo{{
-          validationInfo.stats.totalFiles > 1 ? 's' : ''
+        <strong>{{ validationInfo.stats.totalFiles }}</strong> {{ t('validationWarnings.file') }}{{
+          validationInfo.stats.totalFiles > 1 ? t('validationWarnings.files') : ''
         }}
-        válido{{ validationInfo.stats.validFiles > 1 ? 's' : '' }} ({{
+        válido{{ validationInfo.stats.validFiles > 1 ? t('validationWarnings.files') : '' }} ({{
           formatBytes(validationInfo.stats.validSize)
         }})
       </p>
@@ -78,6 +78,13 @@
 import { ref } from 'vue';
 import { validationInfo } from '@utils/imageStore';
 import { formatBytes } from '@utils/fileValidation';
+import { useTranslations } from '@i18n/utils';
+import type { Lang } from '@i18n/ui';
 
+const props = defineProps<{
+  lang: Lang;
+}>();
+
+const t = useTranslations(props.lang);
 const showRejected = ref(false);
 </script>

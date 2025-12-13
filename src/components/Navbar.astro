@@ -1,27 +1,61 @@
 ---
+import { getLangFromUrl, useTranslations, languages } from '@i18n/utils';
+import type { Lang } from '@i18n/ui';
 
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <nav class="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
   <div class="max-w-6xl mx-auto px-8 py-4 flex items-center justify-between">
     <!-- Logo y nombre -->
-    <div class="flex items-center gap-3">
+    <a href="/" class="flex items-center gap-3">
       <span class="text-2xl">🚀</span>
-      <h1 class="text-xl font-bold text-gray-800">Image Optimizer</h1>
-    </div>
+      <h1 class="text-xl font-bold text-gray-800">{t('navbar.title')}</h1>
+    </a>
 
     <!-- Enlaces (opcional para futuro) -->
     <div class="flex items-center gap-6">
-      <a
-        href="/"
-        class="text-sm text-gray-600 hover:text-blue-600 transition-colors"
-        >Inicio</a
-      >
-      <a
-        href="#faqs"
-        class="text-sm text-gray-600 hover:text-blue-600 transition-colors"
-        >Preguntas</a
-      >
+      <!-- Selector de idioma -->
+      <div class="relative flex items-center gap-2">
+        <select
+          id="language-selector"
+          class="px-3 py-2 text-sm font-medium uppercase bg-white border border-gray-200 rounded-lg cursor-pointer hover:border-blue-600 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors appearance-none pr-8"
+          style="background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2716%27 height=%2716%27 fill=%27none%27 stroke=%27%23666%27 viewBox=%270 0 24 24%27%3e%3cpath stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%272%27 d=%27M19 9l-7 7-7-7%27/%3e%3c/svg%3e'); background-repeat: no-repeat; background-position: right 0.5rem center; background-size: 1rem;"
+        >
+          {
+            Object.entries(languages).map(([code, name]) => (
+              <option value={code} selected={code === lang}>
+                {code.toUpperCase()}
+              </option>
+            ))
+          }
+        </select>
+      </div>
     </div>
   </div>
 </nav>
+
+<script>
+  document
+    .getElementById('language-selector')
+    ?.addEventListener('change', (e) => {
+      const select = e.target as HTMLSelectElement;
+      const newLang = select.value;
+      const currentPath = window.location.pathname;
+
+      let newPath = currentPath;
+
+      if (newLang === 'es') {
+        newPath = currentPath.replace(/^\/en\//, '/').replace(/^\/en$/, '/');
+      } else if (newLang === 'en') {
+        if (currentPath === '/') {
+          newPath = '/en';
+        } else {
+          newPath = `/en${currentPath}`;
+        }
+      }
+
+      window.location.href = newPath;
+    });
+</script>

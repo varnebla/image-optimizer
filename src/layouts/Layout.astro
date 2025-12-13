@@ -2,11 +2,22 @@
 import '../styles/global.css';
 import Navbar from '@components/Navbar.astro';
 import Footer from '@components/Footer.astro';
+import { getLangFromUrl, useTranslations } from '@i18n/utils';
+import type { Lang } from '@i18n/ui';
 
-const { title, description } = Astro.props;
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  hrefEn?: string;
+  hrefEs?: string;
+}
+
+const { title, description, canonical, hrefEn, hrefEs } = Astro.props;
+const lang = getLangFromUrl(Astro.url) as Lang;
 ---
 
-<html lang="es">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -19,6 +30,16 @@ const { title, description } = Astro.props;
       rel="icon"
       href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>"
     />
+
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="en" href={hrefEn} />
+    <link rel="alternate" hreflang="es" href={hrefEs} />
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href="https://image-optimizer.xyz/"
+    />
+
     <script
       defer
       src="https://analytics.varnebla.dev/script.js"

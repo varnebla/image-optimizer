@@ -1,5 +1,8 @@
 ---
+import { getLangFromUrl, useTranslations } from '@i18n/utils';
 
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <section
@@ -12,13 +15,11 @@
       id="faqs-title"
       class="text-3xl font-bold text-gray-800 mb-4 text-center"
     >
-      Preguntas frecuentes
+      {t('faq.title')}
     </h2>
 
     <p class="text-center text-gray-600 mb-12">
-      Aquí encontrarás respuestas rápidas sobre cómo optimizar imágenes online,
-      reducir su peso sin perder calidad y mejorar el rendimiento de tus
-      proyectos web.
+      {t('faq.subtitle')}
     </p>
 
     <div class="space-y-3">
@@ -28,7 +29,7 @@
         <summary
           class="flex items-center justify-between font-semibold text-gray-800 select-none"
         >
-          ¿Cómo puedo optimizar imágenes sin perder calidad?
+          {t('faq.q1')}
           <span
             class="text-gray-400 group-open:rotate-180 transition-transform duration-200"
           >
@@ -36,11 +37,7 @@
           </span>
         </summary>
         <p class="text-gray-700 mt-4 leading-relaxed">
-          Nuestra herramienta utiliza algoritmos de compresión inteligente que
-          reducen el tamaño del archivo sin afectar la calidad visual. Solo
-          tienes que arrastrar tus imágenes, esperar unos segundos y descargar
-          la versión optimizada. No necesitas instalar nada ni configurar
-          opciones avanzadas: todo se hace automáticamente.
+          {t('faq.a1')}
         </p>
       </details>
 
@@ -50,7 +47,7 @@
         <summary
           class="flex items-center justify-between font-semibold text-gray-800 select-none"
         >
-          ¿Puedo optimizar varias imágenes a la vez?
+          {t('faq.q2')}
           <span
             class="text-gray-400 group-open:rotate-180 transition-transform duration-200"
           >
@@ -58,11 +55,7 @@
           </span>
         </summary>
         <p class="text-gray-700 mt-4 leading-relaxed">
-          Sí. Image-optimizer.xyz está diseñado para trabajar con múltiples
-          imágenes simultáneamente. Solo selecciona todos los archivos que
-          quieras optimizar y la herramienta procesará cada uno en segundos. Es
-          ideal para desarrolladores, diseñadores y creadores de contenido que
-          necesitan un flujo de trabajo rápido.
+          {t('faq.a2')}
         </p>
       </details>
 
@@ -72,7 +65,7 @@
         <summary
           class="flex items-center justify-between font-semibold text-gray-800 select-none"
         >
-          ¿Qué formatos de imagen soporta la herramienta?
+          {t('faq.q3')}
           <span
             class="text-gray-400 group-open:rotate-180 transition-transform duration-200"
           >
@@ -80,10 +73,7 @@
           </span>
         </summary>
         <p class="text-gray-700 mt-4 leading-relaxed">
-          Actualmente soportamos los formatos más comunes en diseño web:
-          <strong>JPG, PNG y WebP</strong>. Estamos trabajando para añadir
-          compatibilidad con otros formatos modernos para ampliar aún más la
-          utilidad de la herramienta.
+          {t('faq.a3')}
         </p>
       </details>
 
@@ -93,7 +83,7 @@
         <summary
           class="flex items-center justify-between font-semibold text-gray-800 select-none"
         >
-          ¿La herramienta es gratuita?
+          {t('faq.q4')}
           <span
             class="text-gray-400 group-open:rotate-180 transition-transform duration-200"
           >
@@ -101,10 +91,7 @@
           </span>
         </summary>
         <p class="text-gray-700 mt-4 leading-relaxed">
-          Sí, la optimización es completamente gratuita. Puedes subir tantas
-          imágenes como necesites sin límites ni registros obligatorios. Nuestro
-          objetivo es ofrecer un servicio rápido, sencillo y accesible para
-          cualquier persona.
+          {t('faq.a4')}
         </p>
       </details>
 
@@ -114,7 +101,7 @@
         <summary
           class="flex items-center justify-between font-semibold text-gray-800 select-none"
         >
-          ¿Por qué es importante optimizar imágenes para una página web?
+          {t('faq.q5')}
           <span
             class="text-gray-400 group-open:rotate-180 transition-transform duration-200"
           >
@@ -122,11 +109,7 @@
           </span>
         </summary>
         <p class="text-gray-700 mt-4 leading-relaxed">
-          Las imágenes sin optimizar pueden ralentizar la carga de una web y
-          afectar negativamente al SEO, la experiencia de usuario y el
-          rendimiento general del sitio. Al reducir el peso de las imágenes,
-          mejoras la velocidad de carga, la puntuación en Core Web Vitals, el
-          posicionamiento en buscadores y la tasa de conversión.
+          {t('faq.a5')}
         </p>
       </details>
 
@@ -136,7 +119,7 @@
         <summary
           class="flex items-center justify-between font-semibold text-gray-800 select-none"
         >
-          ¿Mis imágenes quedan guardadas en el servidor?
+          {t('faq.q6')}
           <span
             class="text-gray-400 group-open:rotate-180 transition-transform duration-200"
           >
@@ -144,10 +127,7 @@
           </span>
         </summary>
         <p class="text-gray-700 mt-4 leading-relaxed">
-          No. Todas las imágenes se procesan de forma temporal y se eliminan
-          automáticamente una vez completada la optimización. No almacenamos
-          archivos ni datos personales. La privacidad y la seguridad son una
-          prioridad en nuestro servicio.
+          {t('faq.a6')}
         </p>
       </details>
 
@@ -157,7 +137,7 @@
         <summary
           class="flex items-center justify-between font-semibold text-gray-800 select-none"
         >
-          ¿Pierden calidad las imágenes al optimizarlas?
+          {t('faq.q7')}
           <span
             class="text-gray-400 group-open:rotate-180 transition-transform duration-200"
           >
@@ -165,10 +145,7 @@
           </span>
         </summary>
         <p class="text-gray-700 mt-4 leading-relaxed">
-          No de forma perceptible. La optimización está diseñada para mantener
-          la máxima calidad visual mientras reduce el peso del archivo. Para la
-          mayoría de casos, la diferencia entre la imagen original y la
-          optimizada es prácticamente imperceptible.
+          {t('faq.a7')}
         </p>
       </details>
 
@@ -178,7 +155,7 @@
         <summary
           class="flex items-center justify-between font-semibold text-gray-800 select-none"
         >
-          ¿Cuánto tarda en optimizar varias imágenes?
+          {t('faq.q8')}
           <span
             class="text-gray-400 group-open:rotate-180 transition-transform duration-200"
           >
@@ -186,10 +163,7 @@
           </span>
         </summary>
         <p class="text-gray-700 mt-4 leading-relaxed">
-          Depende del número de archivos y su tamaño, pero normalmente el
-          proceso tarda entre pocos segundos por lote. Hemos priorizado la
-          velocidad para que puedas integrar la herramienta fácilmente en tu
-          flujo de trabajo diario.
+          {t('faq.a8')}
         </p>
       </details>
 
@@ -199,7 +173,7 @@
         <summary
           class="flex items-center justify-between font-semibold text-gray-800 select-none"
         >
-          ¿Puedo usar esta herramienta para mejorar el SEO de mis proyectos web?
+          {t('faq.q9')}
           <span
             class="text-gray-400 group-open:rotate-180 transition-transform duration-200"
           >
@@ -207,10 +181,7 @@
           </span>
         </summary>
         <p class="text-gray-700 mt-4 leading-relaxed">
-          Sí. Optimizar imágenes es una de las acciones más efectivas para
-          mejorar el rendimiento de una web, y Google lo tiene muy en cuenta.
-          Imágenes más ligeras significan tiempos de carga más rápidos, lo que
-          mejora el posicionamiento y la experiencia del usuario.
+          {t('faq.a9')}
         </p>
       </details>
 
@@ -220,7 +191,7 @@
         <summary
           class="flex items-center justify-between font-semibold text-gray-800 select-none"
         >
-          ¿Necesito instalar algún software para usar el optimizador?
+          {t('faq.q10')}
           <span
             class="text-gray-400 group-open:rotate-180 transition-transform duration-200"
           >
@@ -228,9 +199,7 @@
           </span>
         </summary>
         <p class="text-gray-700 mt-4 leading-relaxed">
-          No. Image-optimizer.xyz funciona directamente en el navegador. Solo
-          arrastra tus imágenes y la herramienta hace el resto. Es compatible
-          con los navegadores más utilizados: Chrome, Firefox, Safari y Edge.
+          {t('faq.a10')}
         </p>
       </details>
     </div>
