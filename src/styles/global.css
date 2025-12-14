@@ -1,5 +1,9 @@
 @import 'tailwindcss';
 
+body {
+  font-family: 'Manrope Variable', sans-serif;
+}
+
 /* Estilos personalizados para el slider de calidad */
 .slider-custom {
   -webkit-appearance: none;
