@@ -6,7 +6,7 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
 
-<nav class="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+<nav class="bg-stone-50 sticky top-0 z-50 navbar-shadow">
   <div class="max-w-6xl mx-auto px-8 py-4 flex items-center justify-between">
     <!-- Logo y nombre -->
     <a href="/" class="flex items-center gap-3">
@@ -59,3 +59,17 @@ const t = useTranslations(lang);
       window.location.href = newPath;
     });
 </script>
+
+<style>
+  .navbar-shadow {
+    animation: navigation-bar-scroll both linear;
+    animation-timeline: scroll();
+    animation-range: normal 60px;
+  }
+  @keyframes navigation-bar-scroll {
+    to {
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 4px rgba(150, 150, 150, 0.1);
+    }
+  }
+</style>

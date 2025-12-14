@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div class="my-16 max-w-xl mx-auto px-4 sm:px-0">
     <div
       id="drop-zone"
-      class="border-2 border-dashed rounded-lg p-12 text-center cursor-pointer transition-all duration-200"
+      class="border border-dashed rounded-2xl px-8 py-16 text-center cursor-pointer transition-all duration-200 shadow-xl shadow-neutral-200/50  backdrop-blur-3xl mb-8"
       :class="{
         'border-blue-500 bg-blue-50': isDragging,
-        'border-gray-300 bg-gray-50 hover:bg-gray-100 hover:border-gray-400':
+        'border-neutral-300 bg-gray-50 hover:bg-lime-50 hover:border-lime-400':
           !isDragging,
       }"
       @drop="onDrop"
@@ -24,66 +24,30 @@
         @change="onFileChange"
       />
       <div class="flex flex-col items-center justify-center space-y-3">
-        <svg
-          class="w-16 h-16 text-gray-400"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-          />
-        </svg>
-        <p class="text-lg text-gray-700">
+        <div class="p-4 rounded-2xl bg-white shadow-md shadow-neutral-200">
+          <CloudUpload class="w-8 h-8 " />
+        </div>
+        <p class="text-lg font-medium text-gray-700 mb-0">
           {{ t('imageDrop.dragText') }}
-          <span class="text-blue-600 font-semibold underline"
-            >{{ t('imageDrop.clickText') }}</span
-          >
         </p>
-        <p class="text-sm text-gray-500">{{ t('imageDrop.supportedFormats') }}</p>
+        <p class="text-sm mb-4">
+          {{ t('imageDrop.or') }} <span class="text-lime-600 underline">{{ t('imageDrop.clickText') }}</span>
+        </p>
+        <p class="text-sm text-gray-500">{{ t('imageDrop.supportedFormats') }} ({{ t('imageDrop.maxTotal') }} {{ formatFileSize(fileLimits.maxTotalSize) }})</p>
       </div>
     </div>
     <div
       v-if="filesStore.length > 0"
-      class="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200"
+      class="mt-4 p-4 bg-white rounded-2xl border border-stone-200 text-stone-700"
     >
-      <p class="text-blue-800 font-medium">
-        📁 {{ filesStore.length }}
+      <p class="font-medium">
+        <CheckCircle  class="inline w-5 h-5 mr-1 mb-1" /> {{ filesStore.length }}
         {{
           filesStore.length === 1
             ? t('imageDrop.imageSelected')
             : t('imageDrop.imagesSelected')
         }}
       </p>
-    </div>
-
-    <!-- Información de límites -->
-    <div class="mt-4 p-3 bg-gray-50 rounded-lg border border-gray-200">
-      <div
-        class="flex flex-wrap items-center justify-center gap-4 text-sm text-gray-600"
-      >
-        <div class="flex items-center gap-1">
-          <span class="font-medium">📏 {{ t('imageDrop.maxPerFile') }}</span>
-          <span class="text-blue-600 font-semibold">{{
-            formatFileSize(fileLimits.maxFileSize)
-          }}</span>
-        </div>
-        <div class="flex items-center gap-1">
-          <span class="font-medium">📁 {{ t('imageDrop.maxFiles') }}</span>
-          <span class="text-blue-600 font-semibold">{{
-            fileLimits.maxFiles
-          }}</span>
-        </div>
-        <div class="flex items-center gap-1">
-          <span class="font-medium">💾 {{ t('imageDrop.maxTotal') }}</span>
-          <span class="text-blue-600 font-semibold">{{
-            formatFileSize(fileLimits.maxTotalSize)
-          }}</span>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -106,6 +70,7 @@ import {
 } from '@utils/fileValidation';
 import { useTranslations } from '@i18n/utils';
 import type { Lang } from '@i18n/ui';
+import { CloudUpload, CheckCircle } from 'lucide-vue-next';
 
 const props = defineProps<{
   lang: Lang;
