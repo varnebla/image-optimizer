@@ -1,44 +1,58 @@
 <template>
-  <div class="my-6 p-6 bg-white rounded-lg shadow-md">
+  <div class="mb-12 p-8 bg-white rounded-2xl border border-stone-200 shadow-lg shadow-stone-200/50">
     <div class="flex items-center justify-between mb-4">
-      <h2 class="text-xl font-semibold text-gray-700">{{ t('presetsSelector.title') }}</h2>
-      <button
-        class="px-3 py-1 text-sm bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors font-medium"
+      <div class="space-y-1">
+        <h2 class="text-xl font-semibold text-stone-700 tracking-tight flex items-center gap-2">
+          {{ t('presetsSelector.title') }}
+        </h2>
+        <p class="text-sm text-gray-500">
+           {{ t('presetsSelector.predefinedPresets') }}
+          </p>
+      </div>
+<!-- COMMENTED TILL FIXED -->
+      <!-- <button
+        class="px-4 py-3 text-sm bg-stone-100 text-stone-800 rounded-2xl hover:bg-stone-200 transition-colors font-medium flex items-center"
         @click="showCreateModal = true"
         data-umami-event="Abrir crear preset personalizado"
       >
-        ➕ {{ t('presetsSelector.createPreset') }}
-      </button>
+        <Plus class="inline-block w-4 h-4 mr-2" />
+        {{ t('presetsSelector.createPreset') }}
+      </button> -->
     </div>
 
     <!-- Presets Predefinidos -->
     <div class="space-y-2 mb-4">
-      <p class="text-sm font-medium text-gray-600 mb-2">{{ t('presetsSelector.predefinedPresets') }}</p>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <button
           v-for="preset in predefinedPresets"
           :key="preset.id"
-          class="p-4 text-left rounded-lg border-2 transition-all"
+          class="p-4 text-left rounded-lg border transition-all group"
           :class="{
-            'border-blue-500 bg-blue-50': selectedPresetId === preset.id,
-            'border-gray-200 bg-gray-50 hover:border-gray-300 hover:bg-gray-100':
+            'border-lime-500 bg-lime-50': selectedPresetId === preset.id,
+            'border-stone-200 bg-white hover:border-stone-300 hover:bg-stone-100':
               selectedPresetId !== preset.id,
           }"
           @click="applyPreset(preset)"
           data-umami-event="Seleccionar preset"
           :data-umami-event-preset="preset.name"
         >
-          <div class="flex items-center gap-2 mb-1">
+          <div class="flex items-center gap-2 mb-2">
             <span class="text-2xl">{{ preset.icon }}</span>
             <span class="font-medium text-gray-800">{{ preset.name }}</span>
           </div>
-          <p class="text-xs text-gray-600">{{ preset.description }}</p>
-          <div class="flex items-center gap-2 mt-2 text-xs text-gray-500">
-            <span>{{ preset.config.maxWidth }}px</span>
-            <span>•</span>
-            <span>{{ preset.config.format.toUpperCase() }}</span>
-            <span>•</span>
-            <span>Q{{ preset.config.quality }}</span>
+          <p class="text-xs text-stone-500 mb-6">{{ preset.description }}</p>
+          <div class="flex items-center gap-1 mt-2 text-xs text-stone-500 font-medium">
+            <span class="px-2 py-1 rounded-lg transition-colors" :class="
+              selectedPresetId == preset.id ? 'bg-lime-100 text-lime-700 ' : 'bg-stone-100 group-hover:bg-stone-200'
+            ">{{ preset.config.maxWidth }}px</span>
+            <!-- <span>•</span> -->
+            <span class="px-2 py-1 rounded-lg transition-colors" :class="
+              selectedPresetId == preset.id ? 'bg-lime-100 text-lime-700 ' : 'bg-stone-100 group-hover:bg-stone-200'
+            ">{{ preset.config.format.toUpperCase() }}</span>
+            <!-- <span>•</span> -->
+            <span class="px-2 py-1 rounded-lg transition-colors" :class="
+              selectedPresetId == preset.id ? 'bg-lime-100 text-lime-700 ' : 'bg-stone-100 group-hover:bg-stone-200'
+            ">Q{{ preset.config.quality }}</span>
           </div>
         </button>
       </div>
@@ -170,6 +184,7 @@ import {
 import type { Preset } from '@utils/presets';
 import { useTranslations } from '@i18n/utils';
 import type { Lang } from '@i18n/ui';
+import { Plus } from 'lucide-vue-next'
 
 const props = defineProps<{
   lang: Lang;

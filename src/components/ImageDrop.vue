@@ -38,10 +38,10 @@
     </div>
     <div
       v-if="filesStore.length > 0"
-      class="mt-4 p-4 bg-white rounded-2xl border border-stone-200 text-stone-700"
+      class="mt-4 p-4 sm:p-6 bg-white rounded-2xl border border-stone-200 text-stone-700"
     >
-      <p class="font-medium">
-        <CheckCircle  class="inline w-5 h-5 mr-1 mb-1" /> {{ filesStore.length }}
+      <p class="font-medium text-sm">
+        <CheckCircle  class="inline size-4 mr-1 mb-1" /> {{ filesStore.length }}
         {{
           filesStore.length === 1
             ? t('imageDrop.imageSelected')

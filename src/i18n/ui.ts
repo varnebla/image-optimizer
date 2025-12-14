@@ -49,12 +49,14 @@ export const ui = {
 
     // ImagePreview
     'imagePreview.title': 'Vista Previa',
+    'imagePreview.subtitle': 'Gestiona y revisa tus archivos subidos.',
     'imagePreview.image': 'imagen',
     'imagePreview.images': 'imágenes',
     'imagePreview.deleteAll': 'Eliminar Todas',
     'imagePreview.delete': 'Eliminar',
     'imagePreview.totalSize': 'Tamaño total:',
     'imagePreview.average': 'Promedio:',
+    'imagePreview.updated': 'Actualizado hace un momento',
 
     // OptimizeButton
     'optimizeButton.processing': 'Procesando...',
@@ -64,7 +66,7 @@ export const ui = {
     // PresetsSelector
     'presetsSelector.title': 'Presets',
     'presetsSelector.createPreset': 'Crear Preset',
-    'presetsSelector.predefinedPresets': 'Presets Predefinidos',
+    'presetsSelector.predefinedPresets': 'Configuraciones listas para usar',
     'presetsSelector.myPresets': 'Mis Presets',
     'presetsSelector.delete': 'Eliminar',
     'presetsSelector.createCustom': 'Crear Preset Personalizado',
@@ -254,12 +256,14 @@ export const ui = {
 
     // ImagePreview
     'imagePreview.title': 'Preview',
+    'imagePreview.subtitle': 'Manage and review your uploaded assets.',
     'imagePreview.image': 'image',
     'imagePreview.images': 'images',
     'imagePreview.deleteAll': 'Delete All',
     'imagePreview.delete': 'Delete',
     'imagePreview.totalSize': 'Total size:',
     'imagePreview.average': 'Average:',
+    'imagePreview.updated': 'Last updated just now', 
 
     // OptimizeButton
     'optimizeButton.processing': 'Processing...',
@@ -269,7 +273,7 @@ export const ui = {
     // PresetsSelector
     'presetsSelector.title': 'Presets',
     'presetsSelector.createPreset': 'Create Preset',
-    'presetsSelector.predefinedPresets': 'Predefined Presets',
+    'presetsSelector.predefinedPresets': 'Ready-to-use configurations',
     'presetsSelector.myPresets': 'My Presets',
     'presetsSelector.delete': 'Delete',
     'presetsSelector.createCustom': 'Create Custom Preset',
