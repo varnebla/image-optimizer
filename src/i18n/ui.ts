@@ -10,12 +10,13 @@ export const defaultLang: Lang = 'es';
 export const ui = {
   es: {
     // ImageDrop
-    'imageDrop.dragText': 'Arrastra imágenes aquí o',
+    'imageDrop.dragText': 'Arrastra imágenes aquí',
+    'imageDrop.or': 'o',
     'imageDrop.clickText': 'haz clic para seleccionar',
-    'imageDrop.supportedFormats': 'Soporta: JPG, PNG, WebP, AVIF, GIF',
+    'imageDrop.supportedFormats': 'JPG, PNG, WebP, AVIF, GIF',
     'imageDrop.imageSelected': 'imagen seleccionada',
     'imageDrop.imagesSelected': 'imágenes seleccionadas',
-    'imageDrop.maxPerFile': 'Máx por archivo:',
+    'imageDrop.maxPerFile': 'Máx.',
     'imageDrop.maxFiles': 'Máx archivos:',
     'imageDrop.maxTotal': 'Total máximo:',
     'imageDrop.noValidFiles': 'No se seleccionaron archivos de imagen válidos',
@@ -214,12 +215,13 @@ export const ui = {
   },
   en: {
     // ImageDrop
-    'imageDrop.dragText': 'Drag images here or',
+    'imageDrop.dragText': 'Drag images here',
+    'imageDrop.or': 'or',
     'imageDrop.clickText': 'click to select',
-    'imageDrop.supportedFormats': 'Supports: JPG, PNG, WebP, AVIF, GIF',
+    'imageDrop.supportedFormats': 'JPG, PNG, WebP, AVIF, GIF',
     'imageDrop.imageSelected': 'image selected',
     'imageDrop.imagesSelected': 'images selected',
-    'imageDrop.maxPerFile': 'Max per file:',
+    'imageDrop.maxPerFile': 'Max.',
     'imageDrop.maxFiles': 'Max files:',
     'imageDrop.maxTotal': 'Total max:',
     'imageDrop.noValidFiles': 'No valid image files were selected',

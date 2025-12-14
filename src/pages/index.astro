@@ -1,5 +1,6 @@
 ---
 import Layout from '@layouts/Layout.astro';
+import PageTitle from '@components/PageTitle.astro';
 import InfoSection from '@components/InfoSection.astro';
 import ImageDrop from '@components/ImageDrop.vue';
 import ValidationWarnings from '@components/ValidationWarnings.vue';
@@ -33,11 +34,7 @@ const canonical = hrefEs;
   canonical={canonical}
 >
   <div id="app" class="max-w-6xl mx-auto p-8">
-    <h1
-      class="text-4xl font-bold mb-8 text-center text-gray-800 max-w-xl mx-auto text-pretty"
-    >
-      {t('page.home.heading')}
-    </h1>
+    <PageTitle>{t('page.home.heading')}</PageTitle>
     <ImageDrop client:load lang={lang} />
     <ValidationWarnings client:idle lang={lang} />
     <ImagePreview client:idle lang={lang} />
