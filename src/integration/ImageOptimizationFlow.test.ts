@@ -83,9 +83,9 @@ describe('Image Optimization Flow', () => {
     });
   });
 
-  it('should handle file selection, validation and optimization flow', async () => {
+  it('should handle file selection, validation and auto-optimization flow', async () => {
     // 1. Mount ImageDrop
-    const dropWrapper = mount(ImageDrop);
+    const dropWrapper = mount(ImageDrop, { props: { lang: 'es' } });
     
     // Simulate file selection
     const file = new File(['dummy content'], 'test.jpg', { type: 'image/jpeg' });
@@ -104,22 +104,11 @@ describe('Image Optimization Flow', () => {
     expect(files.value[0].name).toBe('test.jpg');
     expect((window as any).umami.track).toHaveBeenCalledWith('Archivos añadidos', { archivos: 1 });
 
-    // 2. Mount OptimizeButton
-    const buttonWrapper = mount(OptimizeButton);
-    
-    // Assert button is enabled
-    const button = buttonWrapper.find('button');
-    expect(button.exists()).toBe(true);
-    expect(button.attributes('disabled')).toBeUndefined();
+    // Wait for auto-optimization to complete (autoOptimize is true by default)
+    // The timeout is 300ms in the component plus processing time
+    await new Promise(resolve => setTimeout(resolve, 400));
 
-    // 3. Trigger Optimization
-    await button.trigger('click');
-
-    // Wait for async operations (optimizeImages is async)
-    // We can wait for isProcessing to go back to false
-    await new Promise(resolve => setTimeout(resolve, 10)); 
-
-    // Assert optimizeImage was called
+    // Assert optimizeImage was called automatically
     expect(optimizeImageMock).toHaveBeenCalledTimes(1);
     expect(optimizeImageMock).toHaveBeenCalledWith(file, expect.anything());
 
@@ -131,10 +120,17 @@ describe('Image Optimization Flow', () => {
     // Assert session log is updated
     expect(sessionLog.value).toHaveLength(1);
     expect(sessionLog.value[0].fileName).toBe('test.jpg');
+
+    // 2. Test re-optimization: Mount OptimizeButton and verify re-optimize button appears
+    const buttonWrapper = mount(OptimizeButton, { props: { lang: 'es' } });
+    
+    // The re-optimize button should now be visible (results.length > 0)
+    const buttons = buttonWrapper.findAll('button');
+    expect(buttons.length).toBeGreaterThan(1); // Settings button + re-optimize button
   });
 
   it('should handle validation errors (too many files)', async () => {
-    const dropWrapper = mount(ImageDrop);
+    const dropWrapper = mount(ImageDrop, { props: { lang: 'es' } });
     const input = dropWrapper.find('input[type="file"]');
     
     // Create 51 files (assuming limit is 50)
@@ -159,18 +155,24 @@ describe('Image Optimization Flow', () => {
   });
 
   it('should handle empty file list', async () => {
-    // Start with no files
+    // Start with no files and no results
     expect(files.value).toHaveLength(0);
+    expect(results.value).toHaveLength(0);
     
-    const buttonWrapper = mount(OptimizeButton);
-    const button = buttonWrapper.find('button');
+    const buttonWrapper = mount(OptimizeButton, { props: { lang: 'es' } });
+    const buttons = buttonWrapper.findAll('button');
     
-    // Button should be disabled when no files
-    expect(button.attributes('disabled')).toBeDefined();
+    // Only settings button should be visible (re-optimize button hidden when results.length === 0)
+    expect(buttons.length).toBe(1);
+    
+    // The visible button should be the settings button (not disabled)
+    const settingsButton = buttons[0];
+    expect(settingsButton.exists()).toBe(true);
+    expect(settingsButton.attributes('disabled')).toBeUndefined();
   });
 
   it('should handle multiple files sequentially', async () => {
-    const dropWrapper = mount(ImageDrop);
+    const dropWrapper = mount(ImageDrop, { props: { lang: 'es' } });
     const input = dropWrapper.find('input[type="file"]');
     
     const files1 = [
@@ -195,7 +197,7 @@ describe('Image Optimization Flow', () => {
   });
 
   it('should reject non-image files', async () => {
-    const dropWrapper = mount(ImageDrop);
+    const dropWrapper = mount(ImageDrop, { props: { lang: 'es' } });
     const input = dropWrapper.find('input[type="file"]');
     
     const mixedFiles = [
@@ -220,7 +222,7 @@ describe('Image Optimization Flow', () => {
   });
 
   it('should handle drag and drop', async () => {
-    const dropWrapper = mount(ImageDrop);
+    const dropWrapper = mount(ImageDrop, { props: { lang: 'es' } });
     const dropZone = dropWrapper.find('#drop-zone');
     
     const file = new File(['dummy'], 'dropped.jpg', { type: 'image/jpeg' });
@@ -239,7 +241,7 @@ describe('Image Optimization Flow', () => {
   });
 
   it('should handle files exceeding size limit', async () => {
-    const dropWrapper = mount(ImageDrop);
+    const dropWrapper = mount(ImageDrop, { props: { lang: 'es' } });
     const input = dropWrapper.find('input[type="file"]');
     
     // Create a file larger than the limit (12MB)
@@ -263,5 +265,106 @@ describe('Image Optimization Flow', () => {
     expect(files.value).toHaveLength(0);
     expect(validationInfo.rejectedFiles.length).toBe(1);
     expect(validationInfo.rejectedFiles[0].reason).toBe('size');
+  });
+
+  it('should handle re-optimization flow', async () => {
+    // 1. First optimization: Add files
+    const dropWrapper = mount(ImageDrop, { props: { lang: 'es' } });
+    const input = dropWrapper.find('input[type="file"]');
+    
+    const file = new File(['dummy content'], 'test.jpg', { type: 'image/jpeg' });
+    Object.defineProperty(input.element, 'files', {
+      value: [file],
+      writable: false,
+    });
+    
+    await input.trigger('change');
+    
+    // Wait for auto-optimization
+    await new Promise(resolve => setTimeout(resolve, 400));
+    
+    // Assert first optimization completed
+    expect(results.value).toHaveLength(1);
+    expect(optimizeImageMock).toHaveBeenCalledTimes(1);
+    
+    // Clear mock calls for re-optimization test
+    vi.clearAllMocks();
+    
+    // 2. Mount OptimizeButton and test re-optimization
+    const buttonWrapper = mount(OptimizeButton, { props: { lang: 'es' } });
+    const buttons = buttonWrapper.findAll('button');
+    
+    // Find re-optimize button (second button)
+    expect(buttons.length).toBe(2);
+    const reOptimizeButton = buttons[1];
+    
+    // Verify re-optimize button is not disabled
+    expect(reOptimizeButton.attributes('disabled')).toBeUndefined();
+    
+    // Trigger re-optimization
+    await reOptimizeButton.trigger('click');
+    
+    // Wait for re-optimization
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
+    // Assert optimizeImage was called again
+    expect(optimizeImageMock).toHaveBeenCalledTimes(1);
+    
+    // Results should still have the optimized image
+    expect(results.value).toHaveLength(1);
+  });
+
+  it('should track validation errors with Umami', async () => {
+    // Clear previous Umami calls
+    vi.clearAllMocks();
+    
+    // Test 1: Invalid file type
+    const dropWrapper1 = mount(ImageDrop, { props: { lang: 'es' } });
+    const input1 = dropWrapper1.find('input[type="file"]');
+    
+    const invalidFile = new File(['text'], 'document.txt', { type: 'text/plain' });
+    Object.defineProperty(input1.element, 'files', {
+      value: [invalidFile],
+      writable: false,
+    });
+    
+    await input1.trigger('change');
+    
+    // Assert Umami track was called for validation error
+    expect((window as any).umami.track).toHaveBeenCalledWith('validation-error', {
+      reason: 'type',
+      fileCount: 1,
+      totalSize: 4, // 'text' has 4 bytes
+    });
+    
+    // Clear for test 2: File too large
+    vi.clearAllMocks();
+    files.value = [];
+    validationInfo.rejectedFiles = [];
+    
+    // Mount a new component instance for the second test
+    const dropWrapper2 = mount(ImageDrop, { props: { lang: 'es' } });
+    const input2 = dropWrapper2.find('input[type="file"]');
+    
+    const largeFileSize = 13 * 1024 * 1024; // 13MB
+    const largeFile = new File([new ArrayBuffer(largeFileSize)], 'huge.jpg', { type: 'image/jpeg' });
+    Object.defineProperty(largeFile, 'size', {
+      value: largeFileSize,
+      writable: false,
+    });
+    
+    Object.defineProperty(input2.element, 'files', {
+      value: [largeFile],
+      writable: false,
+    });
+    
+    await input2.trigger('change');
+    
+    // Assert Umami track was called for size error
+    expect((window as any).umami.track).toHaveBeenCalledWith('validation-error', {
+      reason: 'size',
+      fileCount: 1,
+      totalSize: largeFileSize,
+    });
   });
 });

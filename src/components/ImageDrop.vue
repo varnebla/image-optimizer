@@ -125,8 +125,8 @@ function onDragLeave(e: DragEvent) {
 function emitFiles(fileList: FileList) {
   const filesArray = Array.from(fileList);
 
-  // Validar archivos con los límites configurados
-  const validation = validateFiles(filesArray, fileLimits);
+  // Validar archivos con los límites configurados y función de traducción
+  const validation = validateFiles(filesArray, t, fileLimits);
 
   // Actualizar información de validación en el store
   validationInfo.hasWarnings = validation.warnings.length > 0;
@@ -158,7 +158,7 @@ function emitFiles(fileList: FileList) {
   error.value = '';
 
   // Log de resumen
-  const summary = getValidationSummary(validation);
+  const summary = getValidationSummary(validation, t);
   console.log('✅ Validación completada:', summary);
 
   if (validation.warnings.length > 0) {

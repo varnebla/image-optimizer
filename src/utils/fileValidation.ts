@@ -3,9 +3,18 @@
  * Maneja límites de tamaño, cantidad y validaciones generales
  */
 
-// TODO: 
-// - [] Enviar errores como evento a Umami Analytics
-// - [] Traducir mensajes de error y advertencia
+import type { ui, Lang } from '@i18n/ui';
+
+// Declaración global de Umami
+declare global {
+  interface Window {
+    umami?: {
+      track: (eventName: string, eventData?: Record<string, any>) => void;
+    };
+  }
+}
+
+type TranslationFunction = (key: keyof typeof ui[Lang]) => string;
 
 export interface FileLimits {
   maxFileSize: number; // En bytes (default: 50 MB)
@@ -48,6 +57,42 @@ export const DEFAULT_LIMITS: FileLimits = {
 };
 
 /**
+ * Envía evento de tracking a Umami Analytics cuando hay errores de validación
+ */
+function trackValidationError(
+  reason: 'size' | 'type' | 'total_count' | 'total_size',
+  fileCount: number,
+  totalSize?: number
+): void {
+  // Solo enviar si Umami está disponible y no estamos en desarrollo
+  if (
+    typeof window !== 'undefined' &&
+    window.umami &&
+    !localStorage.getItem('umami.disabled')
+  ) {
+    window.umami.track('validation-error', {
+      reason,
+      fileCount,
+      totalSize: totalSize || 0,
+    });
+  }
+}
+
+/**
+ * Reemplaza placeholders en strings de traducción
+ */
+function replacePlaceholders(
+  text: string,
+  replacements: Record<string, string | number>
+): string {
+  let result = text;
+  Object.entries(replacements).forEach(([key, value]) => {
+    result = result.replace(new RegExp(`\\{${key}\\}`, 'g'), String(value));
+  });
+  return result;
+}
+
+/**
  * Formatea un tamaño en bytes a formato legible
  */
 export function formatBytes(bytes: number): string {
@@ -80,6 +125,7 @@ export function isValidImageType(file: File): boolean {
  */
 export function validateFiles(
   files: File[],
+  t: TranslationFunction,
   limits: FileLimits = DEFAULT_LIMITS
 ): ValidationResult {
   const validFiles: File[] = [];
@@ -98,22 +144,32 @@ export function validateFiles(
 
   // Validar número total de archivos
   if (files.length > limits.maxFiles) {
-    const excess = files.length - limits.maxFiles;
     if (limits.autoFilter) {
       warnings.push(
-        `⚠️ Has seleccionado ${files.length} archivos, pero el límite es ${limits.maxFiles}. ` +
-          `Solo se procesarán los primeros ${limits.maxFiles} archivos.`
+        '⚠️ ' +
+          replacePlaceholders(t('validation.filesExceeded'), {
+            count: files.length,
+            limit: limits.maxFiles,
+          })
       );
     } else {
-      errors.push(
-        `❌ Número de archivos excedido: ${files.length} archivos (límite: ${limits.maxFiles})`
-      );
+      const errorMsg =
+        '❌ ' +
+        replacePlaceholders(t('validation.filesLimitError'), {
+          count: files.length,
+          limit: limits.maxFiles,
+        });
+      errors.push(errorMsg);
+
+      // Track error
+      trackValidationError('total_count', files.length, totalSize);
+
       return {
         validFiles: [],
         rejectedFiles: files.map((file) => ({
           file,
           reason: 'total_count',
-          message: 'Excede el número máximo de archivos',
+          message: t('validation.maxFilesError'),
         })),
         errors,
         warnings,
@@ -143,30 +199,46 @@ export function validateFiles(
       rejectedFiles.push({
         file,
         reason: 'type',
-        message: `"${file.name}" no es una imagen válida`,
+        message: replacePlaceholders(t('validation.invalidFileType'), {
+          name: file.name,
+        }),
       });
       rejectedSize += file.size;
+
+      // Track error
+      trackValidationError('type', 1, file.size);
       continue;
     }
 
     // 2. Validar tamaño individual
     if (file.size > limits.maxFileSize) {
+      const fileSize = formatBytes(file.size);
+      const limitSize = formatBytes(limits.maxFileSize);
+
       rejectedFiles.push({
         file,
         reason: 'size',
-        message: `"${file.name}" (${formatBytes(
-          file.size
-        )}) supera el límite de ${formatBytes(limits.maxFileSize)}`,
+        message: replacePlaceholders(t('validation.fileTooLarge'), {
+          name: file.name,
+          size: fileSize,
+          limit: limitSize,
+        }),
       });
       rejectedSize += file.size;
 
       if (limits.showWarnings) {
         warnings.push(
-          `⚠️ Archivo demasiado grande: "${file.name}" (${formatBytes(
-            file.size
-          )}) supera el límite de ${formatBytes(limits.maxFileSize)}`
+          '⚠️ ' +
+            replacePlaceholders(t('validation.fileTooLargeWarning'), {
+              name: file.name,
+              size: fileSize,
+              limit: limitSize,
+            })
         );
       }
+
+      // Track error
+      trackValidationError('size', 1, file.size);
       continue;
     }
 
@@ -175,21 +247,24 @@ export function validateFiles(
       rejectedFiles.push({
         file,
         reason: 'total_size',
-        message: `"${
-          file.name
-        }" excedería el tamaño total máximo de ${formatBytes(
-          limits.maxTotalSize
-        )}`,
+        message: replacePlaceholders(t('validation.totalSizeExceeded'), {
+          name: file.name,
+          limit: formatBytes(limits.maxTotalSize),
+        }),
       });
       rejectedSize += file.size;
 
       if (limits.showWarnings && validFiles.length > 0) {
         warnings.push(
-          `⚠️ Límite de tamaño total alcanzado (${formatBytes(
-            limits.maxTotalSize
-          )}). ` + `No se pueden procesar más archivos.`
+          '⚠️ ' +
+            replacePlaceholders(t('validation.totalSizeWarning'), {
+              limit: formatBytes(limits.maxTotalSize),
+            })
         );
       }
+
+      // Track error
+      trackValidationError('total_size', 1, file.size);
       continue;
     }
 
@@ -202,22 +277,28 @@ export function validateFiles(
   // Generar mensajes de error si no hay archivos válidos
   if (validFiles.length === 0) {
     if (rejectedFiles.length > 0) {
-      errors.push(
-        `❌ No se pudo procesar ningún archivo. Por favor, verifica los límites y tipos de archivo.`
-      );
+      errors.push('❌ ' + t('validation.noValidFiles'));
     } else {
-      errors.push(`❌ No se seleccionaron archivos válidos.`);
+      errors.push('❌ ' + t('validation.noFilesSelected'));
     }
   }
 
   // Generar resumen de advertencias
   if (rejectedFiles.length > 0 && validFiles.length > 0) {
+    const plural = rejectedFiles.length > 1 ? 's' : '';
+    const rejectedPlural =
+      rejectedFiles.length > 1
+        ? (t('validationWarnings.files') || 'fueron rechazados')
+        : 'fue rechazado';
+
     warnings.push(
-      `ℹ️ ${rejectedFiles.length} archivo${
-        rejectedFiles.length > 1 ? 's' : ''
-      } ` +
-        `${rejectedFiles.length > 1 ? 'fueron rechazados' : 'fue rechazado'} ` +
-        `(${formatBytes(rejectedSize)})`
+      'ℹ️ ' +
+        replacePlaceholders(t('validation.rejectionSummary'), {
+          count: rejectedFiles.length,
+          plural,
+          rejectedPlural,
+          size: formatBytes(rejectedSize),
+        })
     );
   }
 
@@ -240,23 +321,39 @@ export function validateFiles(
 /**
  * Genera un mensaje resumen de la validación
  */
-export function getValidationSummary(result: ValidationResult): string {
+export function getValidationSummary(
+  result: ValidationResult,
+  t: TranslationFunction
+): string {
   const { stats } = result;
 
   if (stats.validFiles === 0) {
-    return `❌ No se pudieron validar archivos`;
+    return '❌ ' + t('validation.summaryNoFiles');
   }
 
   if (stats.rejectedFiles === 0) {
-    return `✅ ${stats.validFiles} archivo${
-      stats.validFiles > 1 ? 's' : ''
-    } válido${stats.validFiles > 1 ? 's' : ''} (${formatBytes(
-      stats.validSize
-    )})`;
+    const plural = stats.validFiles > 1 ? 's' : '';
+    const validPlural = stats.validFiles > 1 ? 's' : '';
+    return (
+      '✅ ' +
+      replacePlaceholders(t('validation.summaryValid'), {
+        count: stats.validFiles,
+        plural,
+        validPlural,
+        size: formatBytes(stats.validSize),
+      })
+    );
   }
 
+  const validPlural = stats.validFiles > 1 ? 's' : '';
+  const rejectedPlural = stats.rejectedFiles > 1 ? 's' : '';
   return (
-    `✅ ${stats.validFiles} válido${stats.validFiles > 1 ? 's' : ''}, ` +
-    `❌ ${stats.rejectedFiles} rechazado${stats.rejectedFiles > 1 ? 's' : ''}`
+    '✅ ' +
+    replacePlaceholders(t('validation.summaryMixed'), {
+      validCount: stats.validFiles,
+      validPlural,
+      rejectedCount: stats.rejectedFiles,
+      rejectedPlural,
+    })
   );
 }

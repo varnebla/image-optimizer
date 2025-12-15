@@ -150,6 +150,23 @@ export const ui = {
     'validationWarnings.rejectedPlural': 's',
     'validationWarnings.toastTitle': 'No se pudo procesar el archivo',
 
+    // File Validation
+    'validation.filesExceeded': 'Has seleccionado {count} archivos, pero el límite es {limit}. Solo se procesarán los primeros {limit} archivos.',
+    'validation.filesLimitError': 'Número de archivos excedido: {count} archivos (límite: {limit})',
+    'validation.invalidFileType': '"{name}" no es una imagen válida',
+    'validation.fileTooLarge': '"{name}" ({size}) supera el límite de {limit}',
+    'validation.fileTooLargeWarning': 'Archivo demasiado grande: "{name}" ({size}) supera el límite de {limit}',
+    'validation.totalSizeExceeded': '"{name}" excedería el tamaño total máximo de {limit}',
+    'validation.totalSizeWarning': 'Límite de tamaño total alcanzado ({limit}). No se pueden procesar más archivos.',
+    'validation.noValidFiles': 'No se pudo procesar ningún archivo. Por favor, verifica los límites y tipos de archivo.',
+    'validation.noFilesSelected': 'No se seleccionaron archivos válidos.',
+    'validation.rejectionSummary': '{count} archivo{plural} {rejectedPlural} ({size})',
+    'validation.totalSizeExceededError': 'Excede el tamaño total máximo',
+    'validation.maxFilesError': 'Excede el número máximo de archivos',
+    'validation.summaryNoFiles': 'No se pudieron validar archivos',
+    'validation.summaryValid': '{count} archivo{plural} válido{validPlural} ({size})',
+    'validation.summaryMixed': '{validCount} válido{validPlural}, {rejectedCount} rechazado{rejectedPlural}',
+
     // FAQSection
     'faq.title': 'Preguntas frecuentes',
     'faq.subtitle': 'Aquí encontrarás respuestas rápidas sobre cómo optimizar imágenes online, reducir su peso sin perder calidad y mejorar el rendimiento de tus proyectos web.',
@@ -365,6 +382,23 @@ export const ui = {
     'validationWarnings.rejected': 'rejected',
     'validationWarnings.rejectedPlural': '',
     'validationWarnings.toastTitle': 'File could not be processed',
+
+    // File Validation
+    'validation.filesExceeded': 'You have selected {count} files, but the limit is {limit}. Only the first {limit} files will be processed.',
+    'validation.filesLimitError': 'File count exceeded: {count} files (limit: {limit})',
+    'validation.invalidFileType': '"{name}" is not a valid image',
+    'validation.fileTooLarge': '"{name}" ({size}) exceeds the limit of {limit}',
+    'validation.fileTooLargeWarning': 'File too large: "{name}" ({size}) exceeds the limit of {limit}',
+    'validation.totalSizeExceeded': '"{name}" would exceed the maximum total size of {limit}',
+    'validation.totalSizeWarning': 'Total size limit reached ({limit}). No more files can be processed.',
+    'validation.noValidFiles': 'No files could be processed. Please check file limits and types.',
+    'validation.noFilesSelected': 'No valid files were selected.',
+    'validation.rejectionSummary': '{count} file{plural} {rejectedPlural} ({size})',
+    'validation.totalSizeExceededError': 'Exceeds maximum total size',
+    'validation.maxFilesError': 'Exceeds maximum number of files',
+    'validation.summaryNoFiles': 'No files could be validated',
+    'validation.summaryValid': '{count} valid file{plural} ({size})',
+    'validation.summaryMixed': '{validCount} valid{validPlural}, {rejectedCount} rejected{rejectedPlural}',
 
     // FAQSection
     'faq.title': 'Frequently Asked Questions',
