@@ -3,15 +3,12 @@ import Layout from '@layouts/Layout.astro';
 import InfoSection from '@components/InfoSection.astro';
 import ImageDrop from '@components/ImageDrop.vue';
 import ValidationWarnings from '@components/ValidationWarnings.vue';
-import ImagePreview from '@components/ImagePreview.vue';
 import PresetsSelector from '@components/PresetsSelector.vue';
 import SettingsPanel from '@components/SettingsPanel.vue';
 
 import ProgressList from '@components/ProgressList.vue';
 import ResultSummary from '@components/ResultSummary.vue';
-import DetailedStats from '@components/DetailedStats.vue';
 import OptimizeButton from '@components/OptimizeButton.vue';
-import SessionLog from '@components/SessionLog.vue';
 import FAQSection from '@components/FAQSection.astro';
 import { getLangFromUrl, useTranslations } from '@i18n/utils';
 import type { Lang } from '@i18n/ui';
@@ -33,18 +30,28 @@ const canonical = hrefEn;
   hrefEs={hrefEs}
   canonical={canonical}
 >
-  <div id="app" class="max-w-6xl mx-auto p-8">
+  <div id="app" class="max-w-4xl mx-auto px-8 lg:px-0">
     <PageTitle>{t('page.home.heading')}</PageTitle>
+
+    <!-- Zona de drop principal -->
     <ImageDrop client:load lang={lang} />
+
+    <!-- Advertencias de validación (si las hay) -->
     <ValidationWarnings client:idle lang={lang} />
-    <ImagePreview client:idle lang={lang} />
-    <PresetsSelector client:load lang={lang} />
+
+    <!-- Panel de ajustes colapsable -->
     <SettingsPanel client:load lang={lang} />
+
+    <!-- Botones de ajustes y re-optimización -->
     <OptimizeButton client:load lang={lang} />
-    <ProgressList client:only="vue" lang={lang} />
+
+    <!-- Resultado (solo visible cuando hay resultados) -->
     <ResultSummary client:only="vue" lang={lang} />
-    <SessionLog client:visible lang={lang} />
-    <DetailedStats client:only="vue" lang={lang} />
+
+    <!-- Lista de progreso con thumbnails -->
+    <ProgressList client:only="vue" lang={lang} />
+
+    <!-- Información y FAQ -->
     <InfoSection />
     <FAQSection />
   </div>
