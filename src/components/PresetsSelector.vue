@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-12 p-8 bg-white rounded-2xl border border-stone-200 shadow-lg shadow-stone-200/50">
+  <div class="mb-12 p-8 bg-white rounded-2xl border border-stone-100 shadow-lg shadow-stone-200/50">
     <div class="flex items-center justify-between mb-4">
       <div class="space-y-1">
         <h2 class="text-xl font-semibold text-stone-700 tracking-tight flex items-center gap-2">
@@ -9,15 +9,6 @@
            {{ t('presetsSelector.predefinedPresets') }}
           </p>
       </div>
-<!-- COMMENTED TILL FIXED -->
-      <!-- <button
-        class="px-4 py-3 text-sm bg-stone-100 text-stone-800 rounded-2xl hover:bg-stone-200 transition-colors font-medium flex items-center"
-        @click="showCreateModal = true"
-        data-umami-event="Abrir crear preset personalizado"
-      >
-        <Plus class="inline-block w-4 h-4 mr-2" />
-        {{ t('presetsSelector.createPreset') }}
-      </button> -->
     </div>
 
     <!-- Presets Predefinidos -->
