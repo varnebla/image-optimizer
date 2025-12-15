@@ -13,10 +13,19 @@ interface Props {
   canonical?: string;
   hrefEn?: string;
   hrefEs?: string;
+  ogImage?: string;
 }
 
-const { title, description, canonical, hrefEn, hrefEs } = Astro.props;
+const {
+  title,
+  description,
+  canonical,
+  hrefEn,
+  hrefEs,
+  ogImage = 'https://image-optimizer.xyz/og-image-optimizer.png',
+} = Astro.props;
 const lang = getLangFromUrl(Astro.url) as Lang;
+const currentUrl = canonical || Astro.url.href;
 ---
 
 <html lang={lang}>
@@ -42,6 +51,25 @@ const lang = getLangFromUrl(Astro.url) as Lang;
       hreflang="x-default"
       href="https://image-optimizer.xyz/"
     />
+
+    <!-- HTML Meta Tags -->
+
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content={currentUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="image-optimizer.xyz" />
+    <meta property="twitter:url" content={currentUrl} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Meta Tags Generated via https://www.opengraph.xyz -->
 
     <script
       defer

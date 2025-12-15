@@ -21,6 +21,7 @@ const t = useTranslations(lang);
 const hrefEn = 'https://image-optimizer.xyz/en';
 const hrefEs = 'https://image-optimizer.xyz';
 const canonical = hrefEs;
+const ogImage = `${Astro.url.origin}/og-image-optimizer.png`;
 ---
 
 <Layout
@@ -29,6 +30,7 @@ const canonical = hrefEs;
   hrefEn={hrefEn}
   hrefEs={hrefEs}
   canonical={canonical}
+  ogImage={ogImage}
 >
   <div id="app" class="max-w-4xl mx-auto p-8">
     <PageTitle>{t('page.home.heading')}</PageTitle>
