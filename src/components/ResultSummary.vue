@@ -1,37 +1,44 @@
 <template>
+  <!-- Card de resultados rediseñada -->
   <div
     v-if="show"
-    class="my-8 p-6 bg-gradient-to-br from-green-50 to-blue-50 rounded-lg shadow-lg border border-green-200"
+    class="my-6 p-6 bg-gradient-to-br from-gray-50 to-white rounded-2xl shadow-sm border border-gray-200"
   >
-    <h2 class="text-2xl font-bold mb-4 text-green-800">
-      🎉 {{ t('resultSummary.title') }}
-    </h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-      <div class="bg-white p-4 rounded-lg shadow">
-        <p class="text-sm text-gray-600 mb-1">{{ t('resultSummary.originalWeight') }}</p>
-        <p class="text-2xl font-bold text-gray-800">
-          {{ originalSizeFormatted }}
-        </p>
+    <!-- Título y mensaje de éxito -->
+    <div class="mb-5 text-center">
+      <h3 class="text-xl font-bold text-gray-800 mb-2 flex items-center justify-center gap-2">
+        <span class="text-2xl">✅</span>
+        {{ t('resultSummary.title') }}
+      </h3>
+      <p class="text-base text-gray-700">
+        {{ t('progressList.saved') }} <span class="font-bold text-green-600">{{ savingPercent }}%</span>
+      </p>
+      <p class="text-sm text-gray-500 mt-1">
+        {{ results.length }} {{ results.length === 1 ? t('imagePreview.image') : t('imagePreview.images') }} • {{ totalTimeFormatted }}
+      </p>
+    </div>
+
+    <!-- Estadísticas con labels -->
+    <div class="flex items-center justify-center gap-3 mb-6 text-sm flex-wrap">
+      <div class="px-4 py-2 bg-gray-100 rounded-lg text-center">
+        <div class="text-xs text-gray-500 mb-1">{{ t('resultSummary.originalLabel') }}</div>
+        <div class="font-semibold text-gray-700">{{ originalSizeFormatted }}</div>
       </div>
-      <div class="bg-white p-4 rounded-lg shadow">
-        <p class="text-sm text-gray-600 mb-1">{{ t('resultSummary.optimizedWeight') }}</p>
-        <p class="text-2xl font-bold text-blue-600">
-          {{ optimizedSizeFormatted }}
-        </p>
+      <div class="text-gray-400 text-xl">→</div>
+      <div class="px-4 py-2 bg-blue-50 rounded-lg text-center">
+        <div class="text-xs text-blue-600 mb-1">{{ t('resultSummary.optimizedLabel') }}</div>
+        <div class="font-semibold text-blue-600">{{ optimizedSizeFormatted }}</div>
       </div>
-      <div class="bg-white p-4 rounded-lg shadow">
-        <p class="text-sm text-gray-600 mb-1">{{ t('resultSummary.savings') }}</p>
-        <p class="text-2xl font-bold text-green-600">
-          {{ savedSizeFormatted }}
-        </p>
-      </div>
-      <div class="bg-white p-4 rounded-lg shadow">
-        <p class="text-sm text-gray-600 mb-1">{{ t('resultSummary.percentage') }}</p>
-        <p class="text-2xl font-bold text-green-600">{{ savingPercent }}%</p>
+      <div class="px-4 py-2 bg-green-50 rounded-lg text-center">
+        <div class="text-xs text-green-600 mb-1">{{ t('resultSummary.savingsLabel') }}</div>
+        <div class="font-semibold text-green-600">{{ savedSizeFormatted }}</div>
       </div>
     </div>
+
+    <!-- Botón de descarga con degradado lime -->
     <button
-      class="w-full px-6 py-3 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition-colors font-semibold text-lg flex items-center justify-center gap-2"
+      class="w-full px-8 py-4 bg-gradient-to-r from-lime-400 via-lime-500 to-lime-600 text-white rounded-xl shadow-lg hover:shadow-lime-500/50 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 font-bold text-lg flex items-center justify-center gap-3 group"
+      style="background: linear-gradient(45deg, rgb(163, 230, 53), rgb(132, 204, 22), rgb(101, 163, 13));"
       @click="downloadZip"
       data-umami-event="Descargar imágenes"
       :data-umami-event-archivos="results.length"
@@ -51,24 +58,6 @@
       </svg>
       {{ t('resultSummary.downloadZip') }}
     </button>
-    <div v-if="pictureSnippet" class="mt-6">
-      <label class="block font-bold mb-2 text-gray-700"
-        >{{ t('resultSummary.snippetTitle') }}</label
-      >
-      <textarea
-        readonly
-        :value="pictureSnippet"
-        class="w-full h-32 border border-gray-300 rounded-lg p-3 font-mono text-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        @click="selectSnippet"
-      ></textarea>
-      <button
-        class="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition-colors"
-        @click="copySnippet"
-        data-umami-event="Copiar snippet al portapapeles"
-      >
-        📋 {{ t('resultSummary.copySnippet') }}
-      </button>
-    </div>
   </div>
 </template>
 <script lang="ts" setup>
@@ -132,6 +121,20 @@ const savingPercent = computed(() =>
     ? Math.round(100 - (optimizedSizeKB.value * 100) / originalSizeKB.value)
     : 0
 );
+
+// Tiempo total de procesamiento
+const totalTimeMs = computed(() =>
+  results.value.reduce((acc, r) => acc + (r.processingTime || 0), 0)
+);
+
+const totalTimeFormatted = computed(() => {
+  const seconds = Math.round(totalTimeMs.value / 1000);
+  if (seconds < 60) return `${seconds}s`;
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${minutes}m ${remainingSeconds}s`;
+});
+
 const pictureSnippet = computed(() => {
   if (!results.value.length) return '';
   const firstImage = results.value[0].name;

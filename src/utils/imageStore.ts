@@ -31,6 +31,12 @@ export const zipBlob = ref<Blob | null>(null);
 export const isProcessing = ref(false);
 export const error = ref('');
 
+// Auto-optimización activada por defecto
+export const autoOptimize = ref(true);
+
+// Control de visibilidad del panel de ajustes
+export const showSettings = ref(false);
+
 // Límites de validación de archivos
 export const fileLimits = reactive<FileLimits>({ ...DEFAULT_LIMITS });
 

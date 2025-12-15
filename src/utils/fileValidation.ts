@@ -3,6 +3,10 @@
  * Maneja límites de tamaño, cantidad y validaciones generales
  */
 
+// TODO: 
+// - [] Enviar errores como evento a Umami Analytics
+// - [] Traducir mensajes de error y advertencia
+
 export interface FileLimits {
   maxFileSize: number; // En bytes (default: 50 MB)
   maxFiles: number; // Default: 100
@@ -36,7 +40,7 @@ export interface ValidationStats {
 
 // Límites por defecto
 export const DEFAULT_LIMITS: FileLimits = {
-  maxFileSize: 12 * 1024 * 1024, // 6 MB
+  maxFileSize: 12 * 1024 * 1024, // 12 MB
   maxFiles: 10,
   maxTotalSize: 60 * 1024 * 1024, // 60 MB
   autoFilter: true,

@@ -1,5 +1,5 @@
 <template>
-  <div class="my-16 max-w-xl mx-auto px-4 sm:px-0">
+  <div class="my-12 max-w-xl mx-auto px-4 sm:px-0">
     <div
       id="drop-zone"
       class="border border-dashed rounded-2xl px-8 py-16 text-center cursor-pointer transition-all duration-200 shadow-xl shadow-neutral-200/50  backdrop-blur-3xl mb-8"
@@ -36,19 +36,7 @@
         <p class="text-sm text-gray-500">{{ t('imageDrop.supportedFormats') }} ({{ t('imageDrop.maxTotal') }} {{ formatFileSize(fileLimits.maxTotalSize) }})</p>
       </div>
     </div>
-    <div
-      v-if="filesStore.length > 0"
-      class="mt-4 p-4 sm:p-6 bg-white rounded-2xl border border-stone-200 text-stone-700"
-    >
-      <p class="font-medium text-sm">
-        <CheckCircle  class="inline size-4 mr-1 mb-1" /> {{ filesStore.length }}
-        {{
-          filesStore.length === 1
-            ? t('imageDrop.imageSelected')
-            : t('imageDrop.imagesSelected')
-        }}
-      </p>
-    </div>
+
   </div>
 </template>
 
@@ -62,12 +50,19 @@ import {
   error,
   fileLimits,
   validationInfo,
+  autoOptimize,
+  isProcessing,
+  options,
+  sessionLog,
 } from '@utils/imageStore';
 import {
   validateFiles,
   getValidationSummary,
   formatBytes,
 } from '@utils/fileValidation';
+import { optimizeImage } from '@utils/imageUtils';
+import type { OptimizeResult } from '@utils/imageUtils';
+import { generateZip } from '@utils/zipUtils';
 import { useTranslations } from '@i18n/utils';
 import type { Lang } from '@i18n/ui';
 import { CloudUpload, CheckCircle } from 'lucide-vue-next';
@@ -175,6 +170,85 @@ function emitFiles(fileList: FileList) {
       `❌ ${validation.rejectedFiles.length} archivo(s) rechazado(s):`,
       validation.rejectedFiles.map((rf) => rf.message)
     );
+  }
+
+  // Auto-optimizar si está habilitado
+  if (autoOptimize.value) {
+    setTimeout(() => {
+      optimizeImagesAuto();
+    }, 300);
+  }
+}
+
+/**
+ * Optimiza las imágenes automáticamente al cargar
+ */
+async function optimizeImagesAuto() {
+  if (!filesStore.value.length || isProcessing.value) return;
+  
+  isProcessing.value = true;
+  error.value = '';
+  results.value = [];
+
+  try {
+    const optimizedResults: OptimizeResult[] = [];
+
+    for (let i = 0; i < filesStore.value.length; i++) {
+      const file = filesStore.value[i];
+
+      progress.value[i] = { name: file.name, progress: 50 };
+
+      try {
+        console.log(`Procesando ${i + 1}/${filesStore.value.length}: ${file.name}`);
+
+        const startTime = performance.now();
+        const result = await optimizeImage(file, options);
+        const endTime = performance.now();
+        const processingTime = Math.round(endTime - startTime);
+
+        result.processingTime = processingTime;
+        optimizedResults.push(result);
+
+        progress.value[i] = { name: file.name, progress: 100 };
+
+        console.log(
+          `✓ Completado: ${result.name} (${(result.optimizedSize / 1024).toFixed(2)} KB) en ${processingTime}ms`
+        );
+
+        sessionLog.value.push({
+          id: crypto.randomUUID(),
+          timestamp: Date.now(),
+          fileName: result.originalName,
+          originalSize: result.originalSize,
+          optimizedSize: result.optimizedSize,
+          format: result.format,
+          savingsPercentage:
+            ((result.originalSize - result.optimizedSize) / result.originalSize) * 100,
+        });
+
+        await new Promise((resolve) => setTimeout(resolve, 10));
+      } catch (err) {
+        console.error(`Error procesando ${file.name}:`, err);
+        throw new Error(
+          `Error al procesar ${file.name}: ${
+            err instanceof Error ? err.message : 'Error desconocido'
+          }`
+        );
+      }
+    }
+
+    results.value = optimizedResults;
+
+    console.log('Generando archivo ZIP...');
+    zipBlob.value = await generateZip(optimizedResults);
+    console.log('✓ ZIP generado correctamente');
+
+    // NO limpiamos files para permitir re-optimización
+  } catch (e: any) {
+    console.error('Error en optimización:', e);
+    error.value = e?.message || 'Error al optimizar las imágenes.';
+  } finally {
+    isProcessing.value = false;
   }
 }
 </script>

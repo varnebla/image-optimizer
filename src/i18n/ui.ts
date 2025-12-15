@@ -61,7 +61,9 @@ export const ui = {
     // OptimizeButton
     'optimizeButton.processing': 'Procesando...',
     'optimizeButton.optimize': 'Optimizar Imágenes',
+    'optimizeButton.reOptimize': 'Re-optimizar',
     'optimizeButton.success': '¡Imágenes optimizadas correctamente!',
+    'optimizeButton.settings': 'Ajustes',
 
     // PresetsSelector
     'presetsSelector.title': 'Presets',
@@ -96,9 +98,14 @@ export const ui = {
 
     // ProgressList
     'progressList.title': 'Progreso de Optimización',
+    'progressList.subtitle': 'Estado de optimización de tus imágenes',
+    'progressList.saved': 'Este proceso te ha ahorrado un',
 
     // ResultSummary
     'resultSummary.title': '¡Optimización completada!',
+    'resultSummary.originalLabel': 'Original',
+    'resultSummary.optimizedLabel': 'Optimizado',
+    'resultSummary.savingsLabel': 'Ahorro',
     'resultSummary.originalWeight': 'Peso Original',
     'resultSummary.optimizedWeight': 'Peso Optimizado',
     'resultSummary.savings': 'Ahorro',
@@ -128,6 +135,7 @@ export const ui = {
 
     // SettingsPanel
     'settingsPanel.title': 'Configuración',
+    'settingsPanel.close': 'Cerrar',
     'settingsPanel.maxWidth': 'Ancho máximo (px):',
     'settingsPanel.outputFormat': 'Formato de salida:',
     'settingsPanel.quality': 'Calidad:',
@@ -140,6 +148,7 @@ export const ui = {
     'validationWarnings.files': 's',
     'validationWarnings.rejected': 'rechazado',
     'validationWarnings.rejectedPlural': 's',
+    'validationWarnings.toastTitle': 'No se pudo procesar el archivo',
 
     // FAQSection
     'faq.title': 'Preguntas frecuentes',
@@ -268,7 +277,9 @@ export const ui = {
     // OptimizeButton
     'optimizeButton.processing': 'Processing...',
     'optimizeButton.optimize': 'Optimize Images',
+    'optimizeButton.reOptimize': 'Re-optimize',
     'optimizeButton.success': 'Images optimized successfully!',
+    'optimizeButton.settings': 'Settings',
 
     // PresetsSelector
     'presetsSelector.title': 'Presets',
@@ -303,9 +314,14 @@ export const ui = {
 
     // ProgressList
     'progressList.title': 'Optimization Progress',
+    'progressList.subtitle': 'Optimization status of your images',
+    'progressList.saved': 'This process has saved you',
 
     // ResultSummary
     'resultSummary.title': 'Optimization completed!',
+    'resultSummary.originalLabel': 'Original',
+    'resultSummary.optimizedLabel': 'Optimized',
+    'resultSummary.savingsLabel': 'Savings',
     'resultSummary.originalWeight': 'Original Size',
     'resultSummary.optimizedWeight': 'Optimized Size',
     'resultSummary.savings': 'Savings',
@@ -335,6 +351,7 @@ export const ui = {
 
     // SettingsPanel
     'settingsPanel.title': 'Settings',
+    'settingsPanel.close': 'Close',
     'settingsPanel.maxWidth': 'Max width (px):',
     'settingsPanel.outputFormat': 'Output format:',
     'settingsPanel.quality': 'Quality:',
@@ -347,6 +364,7 @@ export const ui = {
     'validationWarnings.files': 's',
     'validationWarnings.rejected': 'rejected',
     'validationWarnings.rejectedPlural': '',
+    'validationWarnings.toastTitle': 'File could not be processed',
 
     // FAQSection
     'faq.title': 'Frequently Asked Questions',

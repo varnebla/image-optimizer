@@ -1,18 +1,33 @@
 <template>
-  <div class="my-6">
+  <div class="-mt-2 mb-4 flex gap-2 items-center justify-center">
+    <!-- Botón de ajustes (siempre visible) -->
     <button
-      class="w-full px-8 py-4 bg-blue-600 text-white rounded-lg shadow-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-700 transition-colors flex items-center justify-center gap-3 text-lg"
+      class="px-4 py-2 bg-white border border-gray-200 text-gray-600 rounded-lg hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 transition-all flex items-center justify-center gap-2 text-sm font-medium"
+      @click="toggleSettings"
+      :title="t('optimizeButton.settings') || 'Ajustes'"
+    >
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+      <span>{{ t('optimizeButton.settings') || 'Ajustes' }}</span>
+    </button>
+
+    <!-- Botón de re-optimizar (solo visible después de la primera optimización) -->
+    <button
+      v-if="results.length > 0"
+      class="px-4 py-2 bg-white border border-gray-200 text-gray-600 rounded-lg hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 text-sm font-medium"
       :disabled="isProcessing || !files.length"
       @click="optimizeImages"
-      data-umami-event="Optimizar imágenes"
+      data-umami-event="Re-optimizar imágenes"
     >
       <span
         v-if="isProcessing"
-        class="animate-spin inline-block w-6 h-6 border-3 border-white border-t-transparent rounded-full"
+        class="animate-spin inline-block w-4 h-4 border-2 border-gray-600 border-t-transparent rounded-full"
       ></span>
       <svg
         v-else
-        class="w-6 h-6"
+        class="w-4 h-4"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -21,25 +36,11 @@
           stroke-linecap="round"
           stroke-linejoin="round"
           stroke-width="2"
-          d="M13 10V3L4 14h7v7l9-11h-7z"
+          d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
         />
       </svg>
-      <span>{{ isProcessing ? t('optimizeButton.processing') : t('optimizeButton.optimize') }}</span>
+      <span>{{ isProcessing ? t('optimizeButton.processing') : t('optimizeButton.reOptimize') || 'Re-optimizar' }}</span>
     </button>
-    <div
-      v-if="error"
-      class="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg"
-    >
-      <p class="text-red-700 font-medium">❌ {{ error }}</p>
-    </div>
-    <div
-      v-if="!error && !isProcessing && results.length"
-      class="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg"
-    >
-      <p class="text-green-700 font-medium">
-        ✅ {{ t('optimizeButton.success') }}
-      </p>
-    </div>
   </div>
 </template>
 <script lang="ts" setup>
@@ -52,7 +53,7 @@ import {
   zipBlob,
   isProcessing,
   error,
-  validationInfo,
+  showSettings,
 } from '@utils/imageStore';
 import { generateZip } from '@utils/zipUtils';
 import { optimizeImage } from '@utils/imageUtils';
@@ -66,6 +67,10 @@ const props = defineProps<{
 
 const t = useTranslations(props.lang);
 
+function toggleSettings() {
+  showSettings.value = !showSettings.value;
+}
+
 /**
  * Procesa las imágenes de forma asíncrona.
  * Aunque no usamos Web Worker, el procesamiento es async y no bloquea la UI
@@ -76,6 +81,9 @@ async function optimizeImages() {
   isProcessing.value = true;
   error.value = '';
   results.value = [];
+
+  // Reiniciar progreso a 0 para todas las imágenes
+  progress.value = files.value.map(f => ({ name: f.name, progress: 0 }));
 
   try {
     const optimizedResults: OptimizeResult[] = [];
@@ -146,13 +154,7 @@ async function optimizeImages() {
     zipBlob.value = await generateZip(optimizedResults);
     console.log('✓ ZIP generado correctamente');
 
-    // Limpiar estado de entrada para permitir nueva carga
-    files.value = [];
-    progress.value = [];
-    validationInfo.hasWarnings = false;
-    validationInfo.warnings = [];
-    validationInfo.rejectedFiles = [];
-    validationInfo.stats = null;
+    // NO limpiar archivos para permitir re-optimización con nuevos ajustes
   } catch (e: any) {
     console.error('Error en optimización:', e);
     error.value = e?.message || 'Error al optimizar las imágenes.';
@@ -161,3 +163,8 @@ async function optimizeImages() {
   }
 }
 </script>
+<style scoped>
+.optimize-button:hover {
+  box-shadow: 0 0 60px #3aed6d33,0 0 120px #5cf68a33,0 0 180px #28d95a33,0 12px 40px #0006,inset 0 2px #fff6,inset 0 -2px #0000004d
+}
+</style>

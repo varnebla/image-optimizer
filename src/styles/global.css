@@ -8,10 +8,14 @@ body {
 .slider-custom {
   -webkit-appearance: none;
   appearance: none;
-  background: linear-gradient(to right, #f87171, #fbbf24, #4ade80);
+  background: linear-gradient(to right, 
+     oklch(76.8% 0.233 130.85) 0%, 
+     oklch(84.1% 0.238 128.85)var(--slider-percent, 50%), 
+    #e5e7eb var(--slider-percent, 50%), 
+    #e5e7eb 100%);
   outline: none;
   border-radius: 6px;
-  height: 12px;
+  height: 6px;
 }
 
 .slider-custom::-webkit-slider-thumb {
@@ -20,7 +24,7 @@ body {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #3b82f6;
+  background: oklch(84.1% 0.238 128.85);
   cursor: pointer;
   border: 2px solid #ffffff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -29,7 +33,7 @@ body {
 
 .slider-custom::-webkit-slider-thumb:hover {
   transform: scale(1.1);
-  background: #2563eb;
+  background: oklch(84.1% 0.238 128.85);
 }
 
 .slider-custom::-moz-range-thumb {
