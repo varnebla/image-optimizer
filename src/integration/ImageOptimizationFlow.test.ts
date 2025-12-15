@@ -367,4 +367,30 @@ describe('Image Optimization Flow', () => {
       totalSize: largeFileSize,
     });
   });
+
+  it('should persist settings to localStorage', async () => {
+    // Import options and autoOptimize from store
+    const { options, autoOptimize } = await import('@utils/imageStore');
+    
+    // Clear localStorage before test
+    localStorage.clear();
+    
+    // Change settings
+    options.maxWidth = 2560;
+    options.quality = 90;
+    options.format = 'avif';
+    autoOptimize.value = false;
+    
+    // Wait for watchers to save to localStorage
+    await new Promise(resolve => setTimeout(resolve, 50));
+    
+    // Verify settings were saved to localStorage
+    const savedOptions = JSON.parse(localStorage.getItem('image-optimizer-options') || '{}');
+    expect(savedOptions.maxWidth).toBe(2560);
+    expect(savedOptions.quality).toBe(90);
+    expect(savedOptions.format).toBe('avif');
+    
+    const savedAutoOptimize = JSON.parse(localStorage.getItem('image-optimizer-auto-optimize') || 'true');
+    expect(savedAutoOptimize).toBe(false);
+  });
 });

@@ -75,6 +75,16 @@
         </div>
       </label>
     </div>
+        
+        <!-- Mensaje de auto-guardado -->
+        <div class="mt-6 pt-4 border-t border-gray-200">
+          <p class="text-xs text-gray-500 flex items-center gap-2">
+            <svg class="w-4 h-4 text-lime-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            {{ t('settingsPanel.autoSaved') }}
+          </p>
+        </div>
       </div>
     </div>
   </Transition>

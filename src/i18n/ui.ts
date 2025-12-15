@@ -142,6 +142,7 @@ export const ui = {
     'settingsPanel.qualityLow': 'Baja',
     'settingsPanel.qualityMedium': 'Media',
     'settingsPanel.qualityHigh': 'Alta',
+    'settingsPanel.autoSaved': 'Los cambios se guardan automáticamente',
 
     // ValidationWarnings
     'validationWarnings.file': 'archivo',
@@ -375,6 +376,7 @@ export const ui = {
     'settingsPanel.qualityLow': 'Low',
     'settingsPanel.qualityMedium': 'Medium',
     'settingsPanel.qualityHigh': 'High',
+    'settingsPanel.autoSaved': 'Changes are saved automatically',
 
     // ValidationWarnings
     'validationWarnings.file': 'file',
