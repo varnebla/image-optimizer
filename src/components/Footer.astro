@@ -21,6 +21,12 @@ const t = useTranslations(lang);
         <h3 class="text-white font-semibold mb-4">{t('footer.resources')}</h3>
         <ul class="space-y-2 text-sm">
           <li>
+            <a
+              href={lang === 'es' ? '/blog' : '/en/blog'}
+              class="hover:text-blue-400 transition-colors">Blog</a
+            >
+          </li>
+          <li>
             <a href="#faqs" class="hover:text-blue-400 transition-colors"
               >{t('footer.faq')}</a
             >

@@ -241,6 +241,11 @@ export const ui = {
     'page.bulk.intro2': 'La herramienta utiliza compresión inteligente para reducir el tamaño de archivo mientras preserva la calidad visual, ayudándote a mejorar el rendimiento, acelerar Core Web Vitals y preparar tus recursos para sitios web modernos y de alto rendimiento. Como todo el procesamiento ocurre localmente en tu navegador, tus imágenes nunca salen de tu dispositivo, garantizando privacidad y seguridad total.',
     'page.bulk.intro3': 'La optimización masiva es ideal para desarrolladores, diseñadores, fotógrafos y creadores de contenido que necesitan un flujo de trabajo eficiente. Ya sea que estés preparando imágenes para un blog, un sitio de comercio electrónico o un proyecto web de gran escala, esta herramienta te ayuda a generar imágenes ligeras y optimizadas con mínimo esfuerzo.',
     'page.bulk.cta': 'Optimiza tus imágenes ahora',
+
+    // Blog
+    'blog.title': 'Blog de Optimización de Imágenes | Guías y Consejos',
+    'blog.heading': 'Blog de Image Optimizer',
+    'blog.description': 'Aprende a optimizar tus imágenes para web. Guías sobre WebP, AVIF, compresión y rendimiento web para mejorar tu SEO.',
   },
   en: {
     // ImageDrop
@@ -475,5 +480,10 @@ export const ui = {
     'page.bulk.intro2': 'The tool uses smart compression to reduce file size while preserving visual quality, helping you improve performance, speed up Core Web Vitals and prepare your assets for modern, high-performance websites. Since all processing happens locally in your browser, your images never leave your device — ensuring full privacy and security.',
     'page.bulk.intro3': 'Bulk optimization is ideal for developers, designers, photographers and content creators who need an efficient workflow. Whether you\'re preparing images for a blog, an e-commerce site, or a large-scale web project, this tool helps you generate lightweight, optimized images with minimal effort.',
     'page.bulk.cta': 'Optimize your images now',
+
+    // Blog
+    'blog.heading': 'Image Optimizer Blog',
+    'blog.title': 'Image Optimization Blog | Guides and Tips',
+    'blog.description': 'Learn how to optimize your images for the web. Guides on WebP, AVIF, compression, and web performance to improve your SEO.',
   }
 } as const;
