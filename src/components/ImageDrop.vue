@@ -5,7 +5,7 @@
       class="border border-dashed rounded-2xl px-8 py-16 text-center cursor-pointer transition-all duration-200 shadow-xl shadow-neutral-200/50  backdrop-blur-3xl mb-8"
       :class="{
         'border-blue-500 bg-blue-50': isDragging,
-        'border-neutral-300 bg-gray-50 hover:bg-lime-50 hover:border-lime-400':
+        'border-neutral-300 bg-white hover:bg-lime-50 hover:border-lime-400':
           !isDragging,
       }"
       @drop="onDrop"

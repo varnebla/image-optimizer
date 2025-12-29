@@ -79,7 +79,57 @@ const currentUrl = canonical || Astro.url.href;
       if (!import.meta.env.PROD) localStorage.setItem('umami.disabled', '1');
     </script>
   </head>
-  <body class="bg-stone-50 min-h-screen flex flex-col">
+  <body class="bg-transparent min-h-screen w-full flex flex-col relative">
+    {/* Dashed Top Left Fade Grid */}
+    <div
+      class="absolute inset-0 -z-10"
+      style={{
+        backgroundImage: `
+        linear-gradient(to right, #e7e5e4 1px, transparent 1px),
+        linear-gradient(to bottom, #e7e5e4 1px, transparent 1px)
+      `,
+        backgroundSize: '20px 20px',
+        backgroundPosition: '0 0, 0 0',
+        maskImage: `
+        repeating-linear-gradient(
+              to right,
+              black 0px,
+              black 3px,
+              transparent 3px,
+              transparent 8px
+            ),
+            repeating-linear-gradient(
+              to bottom,
+              black 0px,
+              black 3px,
+              transparent 3px,
+              transparent 8px
+            ),
+            radial-gradient(ellipse 80% 80% at 0% 0%, #000 50%, transparent 90%)
+      `,
+        WebkitMaskImage: `
+  repeating-linear-gradient(
+              to right,
+              black 0px,
+              black 3px,
+              transparent 3px,
+              transparent 8px
+            ),
+            repeating-linear-gradient(
+              to bottom,
+              black 0px,
+              black 3px,
+              transparent 3px,
+              transparent 8px
+            ),
+            radial-gradient(ellipse 80% 80% at 0% 0%, #000 50%, transparent 90%)
+      `,
+        maskComposite: 'intersect',
+        WebkitMaskComposite: 'source-in',
+      }}
+    >
+    </div>
+
     <ToasterWrapper client:only="vue" />
     <Navbar />
     <main class="flex-1">

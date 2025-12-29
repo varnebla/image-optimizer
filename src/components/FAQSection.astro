@@ -26,7 +26,7 @@ const faqs = Array.from({ length: 10 }, (_, i) => ({
     <div class="space-y-3">
       {
         faqs.map((faq) => (
-          <details class="group border border-gray-200 rounded-2xl p-4 hover:border-lime-300 hover:bg-lime-50 transition-all duration-200 cursor-pointer">
+          <details class="group border border-gray-200 bg-white rounded-2xl p-4 hover:border-lime-300 hover:bg-lime-50 transition-all duration-200 cursor-pointer">
             <summary class="flex items-center justify-between font-semibold text-gray-800 select-none">
               {faq.question}
               <svg

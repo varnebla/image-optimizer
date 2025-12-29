@@ -6,7 +6,7 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
 
-<nav class="bg-stone-50 sticky top-0 z-50 navbar-shadow">
+<nav class="bg-transparent sticky top-0 z-50 navbar-shadow">
   <div class="max-w-6xl mx-auto px-8 py-4 flex items-center justify-between">
     <!-- Logo y nombre -->
     <a href="/" class="flex items-center gap-3">
@@ -70,6 +70,7 @@ const t = useTranslations(lang);
     to {
       backdrop-filter: blur(10px);
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      background-color: oklch(98.5% 0.001 106.423 / 0.6);
     }
   }
 </style>
