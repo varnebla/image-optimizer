@@ -15,15 +15,17 @@ const posts = (await getCollection('blog'))
   <div class="container mx-auto px-4 py-12 max-w-4xl">
     <h1 class="text-4xl font-bold mb-8">{t('blog.heading')}</h1>
 
-    <div class="space-y-6">
+    <div class="space-y-8">
       {
         posts.map((post) => (
-          <article class="flex flex-col divide-stone-200 pb-6">
+          <article class="flex flex-col divide-stone-200 pb-8">
             <a
               href={`/en/blog/${post.slug.replace('en/', '')}`}
-              class="block hover:opacity-80 transition-opacity"
+              class="block group"
             >
-              <h2 class="text-2xl font-semibold mb-3">{post.data.title}</h2>
+              <h2 class="text-2xl font-semibold mb-3 group-hover:text-lime-600 transition-colors">
+                {post.data.title}
+              </h2>
               <p class="text-gray-600  mb-3">{post.data.description}</p>
               <div class="text-sm text-gray-500">
                 <span>{post.data.author}</span> ·
