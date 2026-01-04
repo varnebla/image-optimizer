@@ -246,6 +246,13 @@ export const ui = {
     'blog.title': 'Blog de Optimización de Imágenes | Guías y Consejos',
     'blog.heading': 'Blog de Image Optimizer',
     'blog.description': 'Aprende a optimizar tus imágenes para web. Guías sobre WebP, AVIF, compresión y rendimiento web para mejorar tu SEO.',
+
+    // 404
+    '404.title': 'Página no encontrada | Image Optimizer',
+    '404.description': 'Lo sentimos, la página que buscas no existe.',
+    '404.heading': '404 - Página no encontrada',
+    '404.message': 'Parece que te has perdido. No te preocupes, puedes volver al inicio para seguir optimizando tus imágenes.',
+    '404.backHome': 'Volver al inicio',
   },
   en: {
     // ImageDrop
@@ -485,5 +492,12 @@ export const ui = {
     'blog.heading': 'Image Optimizer Blog',
     'blog.title': 'Image Optimization Blog | Guides and Tips',
     'blog.description': 'Learn how to optimize your images for the web. Guides on WebP, AVIF, compression, and web performance to improve your SEO.',
+
+    // 404
+    '404.title': 'Page Not Found | Image Optimizer',
+    '404.description': 'Sorry, the page you are looking for does not exist.',
+    '404.heading': '404 - Page Not Found',
+    '404.message': 'It seems you are lost. Don\'t worry, you can go back home to continue optimizing your images.',
+    '404.backHome': 'Back to home',
   }
 } as const;

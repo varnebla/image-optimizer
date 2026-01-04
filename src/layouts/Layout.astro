@@ -14,6 +14,7 @@ interface Props {
   hrefEn?: string;
   hrefEs?: string;
   ogImage?: string;
+  noindex?: boolean;
 }
 
 const {
@@ -23,6 +24,7 @@ const {
   hrefEn,
   hrefEs,
   ogImage = 'https://image-optimizer.xyz/og-image-optimizer.png',
+  noindex = false,
 } = Astro.props;
 const lang = getLangFromUrl(Astro.url) as Lang;
 const currentUrl = canonical || Astro.url.href;
@@ -37,15 +39,16 @@ const currentUrl = canonical || Astro.url.href;
       {title}
     </title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link
       rel="icon"
       href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>"
     />
 
-    <link rel="canonical" href={canonical} />
-    <link rel="alternate" hreflang="en" href={hrefEn} />
-    <link rel="alternate" hreflang="es" href={hrefEs} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    {hrefEn && <link rel="alternate" hreflang="en" href={hrefEn} />}
+    {hrefEs && <link rel="alternate" hreflang="es" href={hrefEs} />}
     <link
       rel="alternate"
       hreflang="x-default"
