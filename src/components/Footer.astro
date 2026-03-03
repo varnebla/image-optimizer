@@ -1,8 +1,11 @@
 ---
 import { getLangFromUrl, useTranslations } from '@i18n/utils';
+import { getRelativeLocaleUrl } from 'astro:i18n';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const homePath = getRelativeLocaleUrl(lang, '');
+const blogPath = getRelativeLocaleUrl(lang, 'blog');
 ---
 
 <footer class="bg-gray-900 text-gray-300 mt-20 border-t border-gray-800">
@@ -21,14 +24,13 @@ const t = useTranslations(lang);
         <h3 class="text-white font-semibold mb-4">{t('footer.resources')}</h3>
         <ul class="space-y-2 text-sm">
           <li>
-            <a
-              href={lang === 'es' ? '/blog' : '/en/blog'}
-              class="hover:text-blue-400 transition-colors">Blog</a
+            <a href={blogPath} class="hover:text-blue-400 transition-colors"
+              >Blog</a
             >
           </li>
           <li>
             <a
-              href={lang === 'es' ? '/#faqs' : '/en/#faqs'}
+              href={`${homePath}#faqs`}
               class="hover:text-blue-400 transition-colors">{t('footer.faq')}</a
             >
           </li>

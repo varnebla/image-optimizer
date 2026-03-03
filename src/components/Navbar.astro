@@ -1,15 +1,17 @@
 ---
 import { getLangFromUrl, useTranslations, languages } from '@i18n/utils';
 import type { Lang } from '@i18n/ui';
+import { getRelativeLocaleUrl } from 'astro:i18n';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const homePath = getRelativeLocaleUrl(lang, '');
 ---
 
 <nav class="bg-transparent sticky top-0 z-50 navbar-shadow">
   <div class="max-w-6xl mx-auto px-8 py-4 flex items-center justify-between">
     <!-- Logo y nombre -->
-    <a href="/" class="flex items-center gap-3">
+    <a href={homePath} class="flex items-center gap-3">
       <span class="text-2xl">🚀</span>
       <span class="text-xl font-bold text-gray-800">{t('navbar.title')}</span>
     </a>

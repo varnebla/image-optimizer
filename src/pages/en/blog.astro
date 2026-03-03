@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Layout from '@layouts/Layout.astro';
 import { getLangFromUrl, useTranslations } from '@i18n/utils';
+import { getRelativeLocaleUrl } from 'astro:i18n';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -20,7 +21,10 @@ const posts = (await getCollection('blog'))
         posts.map((post) => (
           <article class="flex flex-col divide-stone-200 pb-8">
             <a
-              href={`/en/blog/${post.slug.replace('en/', '')}`}
+              href={getRelativeLocaleUrl(
+                lang,
+                `blog/${post.slug.replace('en/', '')}`,
+              )}
               class="block group"
             >
               <h2 class="text-2xl font-semibold mb-3 group-hover:text-lime-600 transition-colors">

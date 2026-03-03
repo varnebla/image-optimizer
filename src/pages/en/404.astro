@@ -2,9 +2,11 @@
 import Layout from '@layouts/Layout.astro';
 import { getLangFromUrl, useTranslations } from '@i18n/utils';
 import type { Lang } from '@i18n/ui';
+import { getRelativeLocaleUrl } from 'astro:i18n';
 
 const lang = getLangFromUrl(Astro.url) as Lang;
 const t = useTranslations(lang);
+const homePath = getRelativeLocaleUrl(lang, '');
 
 const hrefEn = 'https://image-optimizer.xyz/en/404';
 const hrefEs = 'https://image-optimizer.xyz/404';
@@ -26,7 +28,7 @@ const hrefEs = 'https://image-optimizer.xyz/404';
       {t('404.message')}
     </p>
     <a
-      href="/en"
+      href={homePath}
       class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary/90 transition-colors"
     >
       {t('404.backHome')}
