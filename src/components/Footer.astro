@@ -27,8 +27,9 @@ const t = useTranslations(lang);
             >
           </li>
           <li>
-            <a href="#faqs" class="hover:text-blue-400 transition-colors"
-              >{t('footer.faq')}</a
+            <a
+              href={lang === 'es' ? '/#faqs' : '/en/#faqs'}
+              class="hover:text-blue-400 transition-colors">{t('footer.faq')}</a
             >
           </li>
           <li>
