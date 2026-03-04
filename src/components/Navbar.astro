@@ -2,10 +2,54 @@
 import { getLangFromUrl, useTranslations, languages } from '@i18n/utils';
 import type { Lang } from '@i18n/ui';
 import { getRelativeLocaleUrl } from 'astro:i18n';
+import { getCollection } from 'astro:content';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const homePath = getRelativeLocaleUrl(lang, '');
+
+const currentPath =
+  Astro.url.pathname !== '/' && Astro.url.pathname.endsWith('/')
+    ? Astro.url.pathname.slice(0, -1)
+    : Astro.url.pathname;
+
+const esToEn = new Map<string, string>([
+  ['/', '/en'],
+  ['/blog', '/en/blog'],
+  ['/convertir-a-avif', '/en/convert-to-avif'],
+  ['/convertir-a-webp', '/en/convert-to-webp'],
+  ['/optimizar-varias-imagenes', '/en/bulk-image-optimizer'],
+  ['/404', '/en/404'],
+]);
+
+const enToEs = new Map<string, string>(
+  Array.from(esToEn.entries()).map(([esPath, enPath]) => [enPath, esPath]),
+);
+
+const posts = await getCollection('blog');
+const esPosts = posts.filter((post) => !post.slug.startsWith('en/'));
+const enPosts = posts.filter((post) => post.slug.startsWith('en/'));
+const enPostByThumbnail = new Map(
+  enPosts.map((post) => [post.data.thumbnail, post]),
+);
+
+for (const esPost of esPosts) {
+  const enPost = enPostByThumbnail.get(esPost.data.thumbnail);
+  if (!enPost) continue;
+
+  const esPostPath = `/blog/${esPost.slug}`;
+  const enPostPath = `/en/blog/${enPost.slug.replace('en/', '')}`;
+  esToEn.set(esPostPath, enPostPath);
+  enToEs.set(enPostPath, esPostPath);
+}
+
+const fallbackEs = getRelativeLocaleUrl('es', '');
+const fallbackEn = getRelativeLocaleUrl('en', '');
+
+const switchToEs =
+  lang === 'es' ? currentPath : (enToEs.get(currentPath) ?? fallbackEs);
+const switchToEn =
+  lang === 'en' ? currentPath : (esToEn.get(currentPath) ?? fallbackEn);
 ---
 
 <nav class="bg-transparent sticky top-0 z-50 navbar-shadow">
@@ -22,6 +66,8 @@ const homePath = getRelativeLocaleUrl(lang, '');
       <div class="relative flex items-center gap-2">
         <select
           id="language-selector"
+          data-es-url={switchToEs}
+          data-en-url={switchToEn}
           class="px-3 py-2 text-sm font-medium uppercase bg-white border border-gray-200 rounded-lg cursor-pointer hover:border-blue-600 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors appearance-none pr-8"
           style="background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2716%27 height=%2716%27 fill=%27none%27 stroke=%27%23666%27 viewBox=%270 0 24 24%27%3e%3cpath stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%272%27 d=%27M19 9l-7 7-7-7%27/%3e%3c/svg%3e'); background-repeat: no-repeat; background-position: right 0.5rem center; background-size: 1rem;"
         >
@@ -44,21 +90,12 @@ const homePath = getRelativeLocaleUrl(lang, '');
     ?.addEventListener('change', (e) => {
       const select = e.target as HTMLSelectElement;
       const newLang = select.value;
-      const currentPath = window.location.pathname;
+      const datasetKey = `${newLang}Url` as 'esUrl' | 'enUrl';
+      const targetPath = select.dataset[datasetKey];
 
-      let newPath = currentPath;
+      if (!targetPath) return;
 
-      if (newLang === 'es') {
-        newPath = currentPath.replace(/^\/en\//, '/').replace(/^\/en$/, '/');
-      } else if (newLang === 'en') {
-        if (currentPath === '/') {
-          newPath = '/en';
-        } else {
-          newPath = `/en${currentPath}`;
-        }
-      }
-
-      window.location.href = newPath;
+      window.location.href = `${targetPath}${window.location.search}${window.location.hash}`;
     });
 </script>
 
